@@ -1,0 +1,5 @@
+interface QueryResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+}

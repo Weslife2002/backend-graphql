@@ -1,0 +1,60 @@
+type Query {
+  userAuth(email: String!, password: String!): UserAuthReponse
+  userSignUp(userSignUpInput: userSignUpInput!): userSignUpResponse
+  googleUserAuth: ThirdPartyAuthResponse
+  facebookUserAuth: ThirdPartyAuthResponse
+}
+
+type UserAccount {
+  email: String!
+  username: String!
+  photo: String!
+  bio: String!
+  numberOfFollowers: String!,
+  numberOfFollowees: String!,
+  newNotificationNo: String!,
+  topFiveFollower: String!,
+  password: String!,
+  connectFacebook: Boolean!,
+  connectGoogle: Boolean!,
+  followingTopics: [String!]!,
+}
+
+type UserShort {
+  username: String!
+  numberOfFollowers: Int!
+  photo: String!
+  bio: String!
+}
+
+input userSignUpInput {
+  email: String!
+  username: String!
+  password: String!
+  followingTopics: [String!]
+} 
+
+type userSignUpResponse implements QueryResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  newUser: userReturn
+}
+
+type userReturn {
+  email: String!
+  username: String!
+}
+
+type UserAuthReponse implements QueryResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  user: userReturn
+}
+
+type ThirdPartyAuthResponse implements QueryResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+}

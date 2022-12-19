@@ -1,0 +1,10 @@
+type Query {
+  getSession : SessionResponse
+}
+
+type SessionResponse implements QueryResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  session: String!
+}
