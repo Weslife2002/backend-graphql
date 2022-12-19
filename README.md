@@ -128,13 +128,3 @@ There are something to consider :
 - This web service will likely have the redirect function as the most used one therefore the url fetching step will need to be optimized the most.
 
 In conclusion, the reference method seems to be the one to go for this situation.
-
-## Using Reddis for storing user session
-
-As in the ``express-session`` document:
-
-``The default server-side session storage, MemoryStore, is purposely not designed for a production environment. It will leak memory under most conditions, does not scale past a single process, and is meant for debugging and developing.``
-
-That means, we should not use the MemoryStore for storing the user session. That could lead to unexpected side-effect in production environment.
-
-Beside, if we need to reload the server due to some process being crash. The memory will be clear, and the user they all need to login again.
