@@ -1,25 +1,37 @@
+const getRawSelectedFields = require('../utils/otherUtils/getSelectedFields');
 const { logger } = require('../global');
 const { UserAccount } = require('../models');
-const manageSessionsOnLogin = require('../utils/userResolversUtils/manageSessionsOnLogin');
+const manageSessionsOnLogin = require('../utils/userUtils/manageSessionsOnLogin');
 const responseMessage = require('../utils/otherUtils/responseMessage');
 
 module.exports = {
-  userAuth: async (_, { email, password }, { req }) => {
+  userAuth: async (_, { email, password }, { req }, info) => {
     try {
-      const foundUser = await UserAccount.findOne({ email, password });
+      const rawSelectedFieldMap = new Map();
+      rawSelectedFieldMap.set('user.username', 'username');
+      rawSelectedFieldMap.set('user.email', 'email');
+      rawSelectedFieldMap.set('user.photoUrl', 'photoUrl');
+      rawSelectedFieldMap.set('user.followingTopics', 'followingTopics');
+      rawSelectedFieldMap.set('user.numberOfNewNotifications', 'numberOfNewNotifications');
+      const rawSelectedFields = getRawSelectedFields(info.fieldNodes[0].selectionSet);
+      const selectedFields = rawSelectedFields.map(
+        rawSelectedField => rawSelectedFieldMap.get(rawSelectedField),
+      );
+      const foundUser = await UserAccount.findOne({ email, password }).select(selectedFields);
       if (foundUser) {
-        const { username, photo, bio } = foundUser;
-        manageSessionsOnLogin(req, email, username, photo, bio);
-        return responseMessage(200, true, 'Authentication success!', { user: {
-          email,
-          username,
-          photo,
-          bio,
-        } });
+        const { username, photoUrl, followingTopics, numberOfNewNotifications } = foundUser;
+        manageSessionsOnLogin(req, { email, username, photoUrl, followingTopics, numberOfNewNotifications });
+        return responseMessage(200, true, 'Authentication successes!', {
+          user: {
+            email,
+            username,
+          },
+        });
       }
-      return responseMessage(403, false, 'Authentication fails!', { user: null });
+      return responseMessage(403, false, 'Authentication fails!');
     } catch (error) {
-      return responseMessage(500, false, 'Internal Server Error!', { user: null });
+      logger.error(JSON.stringify({ errorMessage: error.message, errorName: error.name }));
+      return responseMessage(500, false, 'Internal Server Error!');
     }
   },
   googleUserAuth: async (_, __) => {
@@ -39,28 +51,5 @@ module.exports = {
       message: 'Facebook user login successfully',
       success: true,
     };
-  },
-  userSignUp: async (_, { userSignUpInput }, { req }) => {
-    try {
-      const { email, username, password } = userSignUpInput;
-      const newUserAccounts = await UserAccount.insertMany([{ email, username, password }]);
-      if (newUserAccounts) {
-        req.session.user = {
-          email,
-          username,
-        };
-        return responseMessage(200, true, 'Create new user successfully!', { newUser: {
-          email,
-          username,
-        } });
-      }
-      return responseMessage(400, false, 'Fail to create new user!', { newUser: null });
-    } catch (err) {
-      return {
-        code: 500,
-        success: false,
-        message: 'Internal Server Error',
-      };
-    }
   },
 };
