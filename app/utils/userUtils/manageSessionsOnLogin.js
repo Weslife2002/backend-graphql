@@ -3,11 +3,9 @@ const hash = require('../otherUtils/hash');
 const redisClient = require('../redisUtils/redisClient');
 const { sessionTimeOut } = require('../../configs');
 
-function manageSessionsOnLogin(req, email, username, photo, bio) {
-  req.session.email = email;
-  req.session.username = username;
-  req.session.photo = photo;
-  req.session.bio = bio;
+function manageSessionsOnLogin(req, user) {
+  const { email } = user;
+  req.session.user = user;
   redisClient.lpush(`${email}`, `sess:${req.session.id}`);
   redisClient.pexpire(`${email}`, sessionTimeOut);
   const userAgent = UAParser(req.headers['user-agent']);
