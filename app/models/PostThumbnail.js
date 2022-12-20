@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
 const postThumbnailSchema = new mongoose.Schema({
-  userShortId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserShort',
+  authorEmail: {
+    type: String,
     required: true,
     index: true,
   },
@@ -12,6 +11,10 @@ const postThumbnailSchema = new mongoose.Schema({
     ref: 'UserShort',
     required: true,
     index: true,
+  },
+  topicCluster: {
+    type: String,
+    required: true,
   },
   tags: {
     type: [String],
@@ -26,7 +29,7 @@ const postThumbnailSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  thumbnailPicture: {
+  thumbnailPictureUrl: {
     type: String,
     required: true,
   },

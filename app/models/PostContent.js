@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
 const postContentSchema = new mongoose.Schema({
-  userShortId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserShort',
+  authorEmail: {
+    type: String,
     required: true,
     index: true,
   },
@@ -28,7 +27,7 @@ const postContentSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  thumbnailPicture: {
+  thumbnailPictureUrl: {
     type: String,
     required: true,
   },

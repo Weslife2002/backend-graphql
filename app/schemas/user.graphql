@@ -1,11 +1,18 @@
 type Query {
-  userAuth(email: String!, password: String!): UserAuthReponse
-  googleUserAuth: UserAuthReponse
-  facebookUserAuth: UserAuthReponse
+  findUserShortByEmail(email: String!): UserShort!
+  getAllLoginDevices: [Device!]!
 }
 
 type Mutation {
-  userSignUp(userSignUpInput: userSignUpInput!): UserSignUpReponse
+  userSignUp(userSignUpInput: userSignUpInput!): UserSignUpReponse!
+  userAuth(email: String!, password: String!): UserAuthReponse!
+  googleUserAuth: UserAuthReponse!
+  facebookUserAuth: UserAuthReponse!
+  updateMyAccount(photo: String, bio: String): UpdateAccountResponse!
+  endMyAccountSession: GeneralMutationResponse!
+  logOutAnDevice(deviceId: String): GeneralMutationResponse!
+  deleteMyAccount: GeneralMutationResponse!
+  deleteAccountByAdmin(email: String!): GeneralMutationResponse!
 }
 
 type UserAccount {
@@ -21,6 +28,7 @@ type UserAccount {
   connectFacebook: Boolean!
   connectGoogle: Boolean!
   followingTopics: [String!]!
+  posts: [PostThumbnail!]!
 }
 
 type UserShort {
@@ -29,32 +37,8 @@ type UserShort {
   numberOfFollowers: Int!
   photoUrl: String!
   bio: String!
-}
-
-input userSignUpInput {
-  email: String!
-  username: String!
-  password: String!
-} 
-
-type UserAccountShort {
-  email: String!
-  username: String!
-  photoUrl: String!
-  followingTopics: [String!]!
-  numberOfNewNotifications: Int!
-}
-
-type UserSignUpReponse implements MutationResponse{
-  code: Int!
-  success: Boolean!
-  message: String!
-  user: UserAccountShort
-}
-
-type UserAuthReponse {
-  code: Int!
-  success: Boolean!
-  message: String!
-  user: UserAccountShort
+  """Actually, we don't need to includes PostThumbnail inside as we don't 
+  query userShort with his list of PostThumbnails, in this case, I will 
+  keep it so that we can use DataLoader to optimize the performance """
+  posts: [PostThumbnail!]!
 }

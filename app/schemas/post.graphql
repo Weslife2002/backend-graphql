@@ -1,46 +1,47 @@
 type Query {
-  getPostContent(postContentId: String!): PostContent!
-  
+  getPostContentById(postContentId: String!): PostContent!
+  getMyPostThumnails: [PostThumbnail!]!
+  getAllPostThumbnailsByEmail: [PostThumbnail!]!
 }
 
 type Mutation {
-  "// TODO: Only User Can Do It (Auth Directive) "
+  """
+  // TODO: Only User Can create Post (Auth Directive) 
+  // TODO: deleteMyPost: deletePostResponse 
+  // TODO: deleteUserPostByAdmin: deletePostResponse
+  """
   createPost(
-    topicCluster: [String!]!
+    topicCluster: String!
     tags: [String!]!
     estimatedReadingTime: Int!
-    ThumbnailPictureUrl: String!
+    thumbnailPictureUrl: String!
     shortDescription: String!
     content: String!
-  ): createPostResponse
+  ): CreatePostResponse,
+  updateMyPost: GeneralMutationResponse,
+  deleteMyPost: GeneralMutationResponse,
+  deleteUserPostByAdmin: GeneralMutationResponse,
 }
 
 type PostThumbnail {
   postContentId: String!
-  authorEmail: [String!]!
-  topicCluster: [String!]!
+  authorEmail: String!
+  topicCluster: String!
   tags: [String!]!
   publishTime: Date!
   estimatedReadingTime: Int!
-  ThumbnailPictureUrl: String!
+  thumbnailPictureUrl: String!
   shortDescription: String!
 }
 
 type PostContent {
-  authorEmail: [String!]!
-  topicCluster: [String!]!
+  authorEmail: String!
+  topicCluster: String!
   tags: [String!]!
   publishTime: [String!]!
-  estimatedReadingTime: Int!,
-  ThumbnailPictureUrl: String!
+  estimatedReadingTime: Int!
+  thumbnailPictureUrl: String!
   content: String!
   commentCount: Int!
   clapCount: Int!
-}
-
-type createPostResponse implements MutationResponse {
-  code: Int!
-  success: Boolean!
-  message: String!
-  post: PostThumbnail
 }

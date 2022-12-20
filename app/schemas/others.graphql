@@ -1,7 +1,33 @@
 scalar Date
 
+type Device {
+  email: String!
+  deviceId: String!
+  description: String!
+}
+
 interface MutationResponse {
   code: Int!
   success: Boolean!
   message: String!
 }
+
+type Error {
+  name: String!
+  message: String!
+}
+
+type SuccessResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+}
+
+type ErrorReponse implements MutationResponse{
+  code: Int!
+  success: Boolean!
+  message: String!
+  error: Error
+}
+
+union GeneralMutationResponse = ErrorReponse | SuccessResponse

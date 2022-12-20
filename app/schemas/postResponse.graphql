@@ -1,0 +1,8 @@
+type CreatePostSuccessResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  post: PostThumbnail!
+}
+
+union CreatePostResponse = CreatePostSuccessResponse | ErrorReponse
