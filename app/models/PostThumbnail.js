@@ -11,6 +11,7 @@ const postThumbnailSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserShort',
     required: true,
+    index: true,
   },
   tags: {
     type: [String],

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { userDefaultBio, userDefaultPhotoUrl } = require('../configs');
 
 const userAccountSchema = new mongoose.Schema({
   email: {
@@ -17,19 +18,32 @@ const userAccountSchema = new mongoose.Schema({
   },
   username: {
     type: String,
+    validate: {
+      validator: username => String(username)
+        .toLowerCase()
+        .match(
+          /^[a-zA-Z\-0-9,.\s]+$/,
+        ),
+      message: props => `${props.value} is not a valid username!`,
+    },
     required: true,
     index: true,
     unique: true,
   },
-  photo: {
+  photoUrl: {
     type: String,
     required: true,
-    default: 'defaultPhoto.png',
+    default: userDefaultPhotoUrl,
   },
   bio: {
     type: String,
     required: true,
-    default: 'This is the the fault bio',
+    default: userDefaultBio,
+  },
+  numberOfNewNotifications: {
+    type: Number,
+    required: true,
+    default: 0,
   },
   numberOfFollowers: {
     type: Number,
