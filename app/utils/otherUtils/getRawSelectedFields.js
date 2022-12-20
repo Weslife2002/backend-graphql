@@ -1,16 +1,16 @@
 function getRawSelectedFields(selectionSet) {
-  let selectedFields = [];
+  let rawSelectedFields = [];
   selectionSet.selections.forEach(
     selection => {
       if (selection.selectionSet) {
-        selectedFields = selectedFields.concat(getRawSelectedFields(selection.selectionSet)
+        rawSelectedFields = rawSelectedFields.concat(getRawSelectedFields(selection.selectionSet)
           .map(SelectedField => `${selection.name.value}.${SelectedField}`));
       } else {
-        selectedFields = selectedFields.concat(selection.name.value);
+        rawSelectedFields = rawSelectedFields.concat(selection.name.value);
       }
     },
   );
-  return selectedFields;
+  return rawSelectedFields;
 }
 
 module.exports = getRawSelectedFields;
