@@ -41,6 +41,4 @@ const postThumbnailSchema = new mongoose.Schema({
 
 const PostThumbnail = mongoose.model('PostThumbnail', postThumbnailSchema);
 
-module.exports = {
-  PostThumbnail,
-};
+module.exports = PostThumbnail;

@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 
 const applauseSchema = new mongoose.Schema({
-  userAccountId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserAccount',
+  email: {
+    type: String,
     required: true,
     index: true,
   },
@@ -11,12 +10,11 @@ const applauseSchema = new mongoose.Schema({
   postContentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PostContent',
+    required: true,
     index: true,
   },
 });
 
 const Applause = mongoose.model('Applause', applauseSchema);
 
-module.exports = {
-  Applause,
-};
+module.exports = Applause;

@@ -25,7 +25,7 @@ type Mutation {
 
 type PostThumbnail {
   postContentId: String!
-  authorEmail: String!
+  author: UserShort!
   topicCluster: String!
   tags: [String!]!
   publishTime: Date!
@@ -35,13 +35,14 @@ type PostThumbnail {
 }
 
 type PostContent {
-  authorEmail: String!
+  author: UserShort!
   topicCluster: String!
   tags: [String!]!
-  publishTime: [String!]!
+  publishTime: Date!
   estimatedReadingTime: Int!
   thumbnailPictureUrl: String!
   content: String!
-  commentCount: Int!
-  clapCount: Int!
+  commentsCount: Int!
+  clapsCount: Int!
+  applaused: Boolean!
 }

@@ -83,6 +83,4 @@ const userAccountSchema = new mongoose.Schema({
 
 const UserAccount = mongoose.model('UserAccount', userAccountSchema);
 
-module.exports = {
-  UserAccount,
-};
+module.exports = UserAccount;

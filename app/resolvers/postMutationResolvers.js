@@ -46,10 +46,16 @@ module.exports = {
           shortDescription,
         } });
       }
-      return responseMessage(400, false, 'You must login to create new post!');
+      return responseMessage(403, false, 'Fail to create new post!', { error: {
+        name: 'Unauthorized',
+        message: 'You must login to create new post!',
+      } });
     } catch (error) {
       logger.error(JSON.stringify({ errorMessage: error.message, errorName: error.name }));
-      return responseMessage(500, false, 'Internal Server Error!');
+      return responseMessage(500, false, 'Internal Server Error!', { error: {
+        message: error.message,
+        name: error.name,
+      } });
     }
   },
 };

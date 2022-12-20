@@ -1,6 +1,7 @@
 type Query {
   findUserShortByEmail(email: String!): UserShort!
   getAllLoginDevices: [Device!]!
+  resetPasswordRequest: [Device!]!
 }
 
 type Mutation {
@@ -28,7 +29,6 @@ type UserAccount {
   connectFacebook: Boolean!
   connectGoogle: Boolean!
   followingTopics: [String!]!
-  posts: [PostThumbnail!]!
 }
 
 type UserShort {
@@ -37,8 +37,5 @@ type UserShort {
   numberOfFollowers: Int!
   photoUrl: String!
   bio: String!
-  """Actually, we don't need to includes PostThumbnail inside as we don't 
-  query userShort with his list of PostThumbnails, in this case, I will 
-  keep it so that we can use DataLoader to optimize the performance """
-  posts: [PostThumbnail!]!
+  followed: Boolean!
 }

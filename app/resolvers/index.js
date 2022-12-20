@@ -3,9 +3,11 @@ const { Kind } = require('graphql/language');
 const queryResolvers = require('./queryResolvers');
 const userResolvers = require('./userResolvers');
 const mutationResolvers = require('./mutationResolvers');
+const postResolvers = require('./postResolvers');
 
 const resolvers = {
   ...userResolvers,
+  ...postResolvers,
   ...queryResolvers,
   ...mutationResolvers,
   Date: new GraphQLScalarType({
@@ -24,6 +26,17 @@ const resolvers = {
       return null;
     },
   }),
+  GeneralMutationResponse: {
+    __resolveType({ success, error }) {
+      if (success) {
+        return 'SuccessResponse';
+      }
+      if (error) {
+        return 'ErrorReponse';
+      }
+      return null;
+    },
+  },
 };
 
 module.exports = resolvers;

@@ -43,7 +43,14 @@ module.exports = {
       rawSelectedFieldMap.set('user.photoUrl', 'photoUrl');
       rawSelectedFieldMap.set('user.followingTopics', 'followingTopics');
       rawSelectedFieldMap.set('user.numberOfNewNotifications', 'numberOfNewNotifications');
-      const rawSelectedFields = getRawSelectedFields(info.fieldNodes[0].selectionSet);
+
+      const fragmentSelectionSet = info.fieldNodes[0].selectionSet;
+      const rawSelectedFields = (
+        fragmentSelectionSet.selections[0].typeCondition.name.value === 'UserAuthSuccessReponse'
+          ? getRawSelectedFields(fragmentSelectionSet.selections[0].selectionSet)
+          : getRawSelectedFields(fragmentSelectionSet.selections[1].selectionSet)
+      );
+
       const selectedFields = rawSelectedFields.map(
         rawSelectedField => rawSelectedFieldMap.get(rawSelectedField),
       );
@@ -51,7 +58,7 @@ module.exports = {
       if (foundUserAccount) {
         const { username, photoUrl, followingTopics, numberOfNewNotifications } = foundUserAccount;
         manageSessionsOnLogin(req, { email, username, photoUrl, followingTopics, numberOfNewNotifications });
-        return responseMessage(200, true, 'Authentication successes!', {
+        return responseMessage(200, true, 'Authentication success!', {
           user: {
             email,
             username,
@@ -61,10 +68,14 @@ module.exports = {
           },
         });
       }
-      return responseMessage(403, false, 'Authentication fails!');
+      return responseMessage(403, false, 'Authentication fails!', {
+        error: { name: 'Forbidden!', message: 'Wrong username or password' },
+      });
     } catch (error) {
       logger.error(JSON.stringify({ errorMessage: error.message, errorName: error.name }));
-      return responseMessage(500, false, 'Internal Server Error!');
+      return responseMessage(500, false, 'Internal Server Error!', {
+        error: { message: error.message, name: error.name },
+      });
     }
   },
   googleUserAuth: async (_, __) => {

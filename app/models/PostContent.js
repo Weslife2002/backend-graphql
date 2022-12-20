@@ -45,6 +45,4 @@ const postContentSchema = new mongoose.Schema({
 
 const PostContent = mongoose.model('PostContent', postContentSchema);
 
-module.exports = {
-  PostContent,
-};
+module.exports = PostContent;

@@ -21,6 +21,4 @@ const userShortSchema = new mongoose.Schema({
 
 const UserShort = mongoose.model('UserShort', userShortSchema);
 
-module.exports = {
-  UserShort,
-};
+module.exports = UserShort;

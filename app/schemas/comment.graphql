@@ -1,0 +1,10 @@
+type Query {
+  getCommentsByPostId(postContentId: String!): [Comment!]!
+}
+
+type Comment {
+  author: UserShort!
+  postContentId: String!
+  content: String!
+  replies: [String!]!
+}
