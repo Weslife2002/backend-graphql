@@ -1,0 +1,2 @@
+2022-12-20T04:37:30.336Z - error: {"errorMessage":"E11000 duplicate key error collection: medium.useraccounts index: email_1 dup key: { : \"daicatan@gmail.com\" }","errorName":"MongoBulkWriteError"}
+2022-12-20T04:37:45.867Z - error: {"errorMessage":"E11000 duplicate key error collection: medium.useraccounts index: email_1 dup key: { : \"daicatan@gmail.com\" }","errorName":"MongoBulkWriteError"}
