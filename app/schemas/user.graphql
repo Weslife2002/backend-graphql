@@ -1,8 +1,11 @@
 type Query {
   userAuth(email: String!, password: String!): UserAuthReponse
-  userSignUp(userSignUpInput: userSignUpInput!): userSignUpResponse
-  googleUserAuth: ThirdPartyAuthResponse
-  facebookUserAuth: ThirdPartyAuthResponse
+  googleUserAuth: UserAuthReponse
+  facebookUserAuth: UserAuthReponse
+}
+
+type Mutation {
+  userSignUp(userSignUpInput: userSignUpInput!): UserSignUpReponse
 }
 
 type UserAccount {
@@ -10,20 +13,21 @@ type UserAccount {
   username: String!
   photo: String!
   bio: String!
-  numberOfFollowers: String!,
-  numberOfFollowees: String!,
-  newNotificationNo: String!,
-  topFiveFollower: String!,
-  password: String!,
-  connectFacebook: Boolean!,
-  connectGoogle: Boolean!,
-  followingTopics: [String!]!,
+  numberOfFollowers: String!
+  numberOfFollowees: String!
+  numberOfNewNotification: String!
+  topFiveFollowees: [String!]!
+  password: String!
+  connectFacebook: Boolean!
+  connectGoogle: Boolean!
+  followingTopics: [String!]!
 }
 
 type UserShort {
+  email: String!
   username: String!
   numberOfFollowers: Int!
-  photo: String!
+  photoUrl: String!
   bio: String!
 }
 
@@ -31,30 +35,26 @@ input userSignUpInput {
   email: String!
   username: String!
   password: String!
-  followingTopics: [String!]
 } 
 
-type userSignUpResponse implements QueryResponse {
-  code: Int!
-  success: Boolean!
-  message: String!
-  newUser: userReturn
-}
-
-type userReturn {
+type UserAccountShort {
   email: String!
   username: String!
+  photoUrl: String!
+  followingTopics: [String!]!
+  numberOfNewNotifications: Int!
 }
 
-type UserAuthReponse implements QueryResponse {
+type UserSignUpReponse implements MutationResponse{
   code: Int!
   success: Boolean!
   message: String!
-  user: userReturn
+  user: UserAccountShort
 }
 
-type ThirdPartyAuthResponse implements QueryResponse {
+type UserAuthReponse {
   code: Int!
   success: Boolean!
   message: String!
+  user: UserAccountShort
 }

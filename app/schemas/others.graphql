@@ -1,0 +1,7 @@
+scalar Date
+
+interface MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+}

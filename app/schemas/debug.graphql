@@ -1,8 +1,8 @@
 type Query {
-  getSession : SessionResponse
+  getSession: SessionResponse
 }
 
-type SessionResponse implements QueryResponse {
+type SessionResponse {
   code: Int!
   success: Boolean!
   message: String!
