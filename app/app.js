@@ -3,13 +3,16 @@ const { ApolloServer } = require('apollo-server-express');
 const Mongoose = require('mongoose');
 const session = require('express-session');
 const ConnectRedis = require('connect-redis');
+const DataLoader = require('dataloader');
 const redisClient = require('./utils/redisUtils/redisClient');
 const { mongodbConnectURI } = require('./configs');
 const resolvers = require('./resolvers');
 const configs = require('./configs');
 const { logger } = require('./global');
 const typeDefs = require('./schemas');
+// const getPostThumbnailsByIds = require('./');
 
+Mongoose.set('strictQuery', true);
 Mongoose.connect(mongodbConnectURI);
 const RedisStore = ConnectRedis(session);
 
