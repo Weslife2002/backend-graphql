@@ -4,22 +4,24 @@ type Query {
 
 type Mutation {
   commentPost(postContentId: String!, content: String!): CommentPostResponse
-  replyComment(headCommentId: String!, replyCommentId: String!, content: String!): ReplyCommentResponse
+  replyComment(headCommentId: String, replyCommentId: String, content: String!): ReplyCommentResponse
 }
 
 type ReplyComment {
+  _id: String!
   author: UserShort!
   content: String!
   numberOfReplies: Int!
-  replies: [String!]!
+  replies: [ReplyComment!]!
 }
 
 type HeadComment {
+  _id: String!
   author: UserShort!
   postContentId: String!
   content: String!
   numberOfReplies: Int!
-  replies: [String!]!
+  replies: [ReplyComment!]!
 }
 
 type CommentPostResponse implements MutationResponse {

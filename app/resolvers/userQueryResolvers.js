@@ -12,9 +12,7 @@ module.exports = {
     const selectedFields = rawSelectedFields.map(
       rawSelectedField => rawSelectedFieldMap.get(rawSelectedField),
     ).concat('email');
-    console.log({ selectedFields });
     const foundUserShort = await UserShort.findOne({ email }).select(selectedFields);
-    console.log({ foundUserShort });
     return foundUserShort;
   },
 };

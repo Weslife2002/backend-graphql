@@ -7,11 +7,14 @@ module.exports = {
       if (!req.session.user || !req.session.user.email) {
         return responseMessage(403, false, 'You must login to comment the post');
       }
-      const newComment = HeadComment.insertMany([{
+      const newComments = await HeadComment.insertMany([{
         authorEmail: req.session.user.email,
         postContentId,
         content,
       }]);
+
+      const newComment = newComments[0];
+
       return responseMessage(200, true, 'Comment post success', { newComment });
     } catch (error) {
       return responseMessage(500, false, error.message);
@@ -23,10 +26,12 @@ module.exports = {
       if (!req.session.user || !req.session.user.email) {
         return responseMessage(403, false, 'You must login to comment the post');
       }
-      const newComment = await ReplyComment.insertMany([{
+      const newComments = await ReplyComment.insertMany([{
         authorEmail: req.session.user.email,
         content,
       }]);
+
+      const newComment = newComments[0];
 
       if (headCommentId) {
         HeadComment.updateOne(
