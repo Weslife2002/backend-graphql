@@ -1,6 +1,7 @@
 const Admin = require('./Admin');
 const Applause = require('./Applause');
-const Comment = require('./Comment');
+const ReplyComment = require('./ReplyComment');
+const HeadComment = require('./HeadComment');
 const Follow = require('./Follow');
 const PostContent = require('./PostContent');
 const PostThumbnail = require('./PostThumbnail');
@@ -10,7 +11,8 @@ const UserShort = require('./UserShort');
 module.exports = {
   Admin,
   Applause,
-  Comment,
+  ReplyComment,
+  HeadComment,
   Follow,
   PostContent,
   PostThumbnail,

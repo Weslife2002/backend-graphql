@@ -1,12 +1,20 @@
 type Query {
-  getCommentsByPostId(postContentId: String!): [Comment!]!
+  getCommentsByPostId(postContentId: String!): [HeadComment!]!
 }
 
 type Mutation {
   commentPost(postContentId: String!, content: String!): CommentPostResponse
+  replyComment(headCommentId: String!, replyCommentId: String!, content: String!): ReplyCommentResponse
 }
 
-type Comment {
+type ReplyComment {
+  author: UserShort!
+  content: String!
+  numberOfReplies: Int!
+  replies: [String!]!
+}
+
+type HeadComment {
   author: UserShort!
   postContentId: String!
   content: String!
@@ -18,5 +26,12 @@ type CommentPostResponse implements MutationResponse {
   code: Int!
   success: Boolean!
   message: String!
-  newComment: Comment
+  newComment: HeadComment
+}
+
+type ReplyCommentResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  newComment: ReplyComment
 }

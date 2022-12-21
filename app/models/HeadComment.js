@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const commentSchema = new mongoose.Schema({
-  postId: {
+const headCommentSchema = new mongoose.Schema({
+  postContentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PostContent',
     required: true,
@@ -13,7 +13,7 @@ const commentSchema = new mongoose.Schema({
   },
   replies: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Comment',
+    ref: 'ReplyComment',
     required: true,
     default: [],
   },
@@ -24,6 +24,6 @@ const commentSchema = new mongoose.Schema({
 
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
+const HeadComment = mongoose.model('HeadComment', headCommentSchema);
 
-module.exports = Comment;
+module.exports = HeadComment;
