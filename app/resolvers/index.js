@@ -4,12 +4,14 @@ const queryResolvers = require('./queryResolvers');
 const userResolvers = require('./userResolvers');
 const mutationResolvers = require('./mutationResolvers');
 const postResolvers = require('./postResolvers');
+const commentResolvers = require('./commentResolvers');
 
 const resolvers = {
   ...userResolvers,
   ...postResolvers,
   ...queryResolvers,
   ...mutationResolvers,
+  ...commentResolvers,
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Date custom scalar type',

@@ -2,9 +2,21 @@ type Query {
   getCommentsByPostId(postContentId: String!): [Comment!]!
 }
 
+type Mutation {
+  commentPost(postContentId: String!, content: String!): CommentPostResponse
+}
+
 type Comment {
   author: UserShort!
   postContentId: String!
   content: String!
+  numberOfReplies: Int!
   replies: [String!]!
+}
+
+type CommentPostResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  newComment: Comment
 }

@@ -7,9 +7,8 @@ const commentSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
-  userShortId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserAccount',
+  authorEmail: {
+    type: String,
     required: true,
   },
   replies: {
