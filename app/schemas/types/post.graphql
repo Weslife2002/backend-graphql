@@ -1,0 +1,13 @@
+type Post {
+  _id: String!
+  author: UserShort!
+  topicCluster: String!
+  tags: [String!]!
+  publishTime: Date!
+  estimatedReadingTime: Int!
+  thumbnailPictureUrl: String!
+  content: String!
+  commentsCount: Int!
+  clapsCount: Int!
+  applaused: Boolean!
+}

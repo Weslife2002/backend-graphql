@@ -1,0 +1,5 @@
+type Query {
+  getPostContentById(postContentId: String!): PostContent!
+  getMyPostThumnails: [PostThumbnail!]!
+  getAllPostThumbnailsByEmail: [PostThumbnail!]!
+}

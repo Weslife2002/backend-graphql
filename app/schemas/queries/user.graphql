@@ -1,0 +1,5 @@
+type Query {
+  findUserShortByEmail(email: String!): UserShort!
+  getAllLoginDevices: [Device!]!
+  resetPasswordRequest: [Device!]!
+}

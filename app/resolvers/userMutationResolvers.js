@@ -68,32 +68,10 @@ module.exports = {
           },
         });
       }
-      return responseMessage(403, false, 'Authentication fails!', {
-        error: { name: 'Forbidden!', message: 'Wrong username or password' },
-      });
+      return responseMessage(403, false, 'Wrong username or password');
     } catch (error) {
-      logger.error(JSON.stringify({ errorMessage: error.message, errorName: error.name }));
-      return responseMessage(500, false, 'Internal Server Error!', {
-        error: { message: error.message, name: error.name },
-      });
+      logger.error(JSON.stringify({ error: error.stack }));
+      return responseMessage(500, false, error.message);
     }
-  },
-  googleUserAuth: async (_, __) => {
-    // TODO: Google Authentication
-    logger.info('Google user login');
-    return {
-      code: 200,
-      message: 'Google user login successfully',
-      success: true,
-    };
-  },
-  facebookUserAuth: async (_, __) => {
-    // TODO: Facebook Authentication
-    logger.info('Facebook user login');
-    return {
-      code: 200,
-      message: 'Facebook user login successfully',
-      success: true,
-    };
   },
 };

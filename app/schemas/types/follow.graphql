@@ -1,0 +1,4 @@
+type follow {
+  userId: String!
+  followeeId: String!
+}

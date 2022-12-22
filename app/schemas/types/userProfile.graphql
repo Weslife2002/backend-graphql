@@ -1,0 +1,13 @@
+"Only query for user authentication"
+type UserProfile {
+  _id: String!
+  userId: String!
+  email: String!
+  username: String!
+  photoUrl: String!
+  bio: String!
+  numberOfFollowers: String!
+  numberOfFollowees: String!
+  top5Followees: [String!]!
+  followingTopics: [String!]!
+}

@@ -1,0 +1,10 @@
+"Required info when user is viewed as an author"
+type UserShort {
+  _id: String!
+  email: String!
+  username: String!
+  numberOfFollowers: Int!
+  photoUrl: String!
+  bio: String!
+  followed: Boolean!
+}

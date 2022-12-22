@@ -1,0 +1,4 @@
+type Mutation {
+  applausePost(postContentId: String!, applaused: Boolean!): GeneralMutationResponse!
+  unApplausePost(postContentId: String!, applaused: Boolean!): GeneralMutationResponse!
+}

@@ -1,0 +1,8 @@
+"Only query when user login"
+type UserAccount {
+  _id: String!
+  username: String!
+  role: String!
+  photoUrl: String!
+  newNotificationNo: String!
+}

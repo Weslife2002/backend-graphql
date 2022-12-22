@@ -1,0 +1,4 @@
+type Query {
+  getAllFollowersByEmail(email: String!): [UserShort!]!
+  getAllFolloweesByEmail(email: String!): [UserShort!]!
+}

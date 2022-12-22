@@ -1,0 +1,11 @@
+type PostThumbnail {
+  _id: String!
+  postContentId: String!
+  author: UserShort!
+  topicCluster: String!
+  tags: [String!]!
+  publishTime: Date!
+  estimatedReadingTime: Int!
+  thumbnailPictureUrl: String!
+  shortDescription: String!
+}

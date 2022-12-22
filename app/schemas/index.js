@@ -3,9 +3,22 @@ const gql = require('graphql-tag');
 
 const currentPath = './app/schemas/';
 
-const schemaFileNames = readdirSync(currentPath).filter(
-  filename => filename.match(/^.+\.graphql$/),
-);
+function getAllSchemaFilesName(currentfolder) {
+  let graphqlFileNames = readdirSync(currentfolder).filter(
+    filename => filename.match(/^.+\.graphql$/),
+  );
+
+  const folderNames = readdirSync(currentfolder).filter(
+    folderName => folderName.match(/^\w+$/),
+  );
+  folderNames.forEach(folderName => {
+    const folderSchemaFileNames = getAllSchemaFilesName(`${currentfolder}/${folderName}`).map(filename => `${folderName}/${filename}`);
+    graphqlFileNames = graphqlFileNames.concat(folderSchemaFileNames);
+  });
+  return graphqlFileNames;
+}
+
+const schemaFileNames = getAllSchemaFilesName(currentPath);
 
 const loadedSchemas = schemaFileNames.map(
   schemaFile => readFileSync(currentPath + schemaFile, { encoding: 'utf-8' }),

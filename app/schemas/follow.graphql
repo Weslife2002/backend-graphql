@@ -1,9 +1,0 @@
-type Query {
-  getAllFollowersByEmail(email: String!): [UserShort!]!
-  getAllFolloweesByEmail(email: String!): [UserShort!]!
-}
-
-type follow {
-  followerEmail: String!
-  followeeEmail: String!
-}

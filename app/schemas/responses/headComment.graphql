@@ -1,0 +1,6 @@
+type CommentPostResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  newComment: HeadComment
+}

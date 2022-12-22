@@ -1,0 +1,34 @@
+type UserSession {
+  email: String!
+  username: String!
+  photoUrl: String!
+  followingTopics: [String!]!
+  numberOfNewNotifications: Int!
+}
+
+type UserUpdatedInfo {
+  username: String!
+  photoUrl: String!
+  bio: String!
+}
+
+type UserSignUpReponse implements MutationResponse{
+  code: Int!
+  success: Boolean!
+  message: String!
+  newUser: UserSession
+}
+
+type UserAuthReponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  user: UserSession
+}
+
+type UpdateAccountResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  updatedUser: UserUpdatedInfo
+}

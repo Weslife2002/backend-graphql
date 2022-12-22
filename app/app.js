@@ -1,19 +1,14 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const Mongoose = require('mongoose');
 const session = require('express-session');
 const ConnectRedis = require('connect-redis');
-const DataLoader = require('dataloader');
-const redisClient = require('./utils/redisUtils/redisClient');
-const { mongodbConnectURI } = require('./configs');
+const datasources = require('./datasources');
+const redisClient = require('./datasources/utils/redisUtils/redisClient');
 const resolvers = require('./resolvers');
-const configs = require('./configs');
+const config = require('./config');
 const { logger } = require('./global');
 const typeDefs = require('./schemas');
-// const getPostThumbnailsByIds = require('./');
 
-Mongoose.set('strictQuery', true);
-Mongoose.connect(mongodbConnectURI);
 const RedisStore = ConnectRedis(session);
 
 async function startServer() {
@@ -23,7 +18,7 @@ async function startServer() {
     store: new RedisStore({ client: redisClient }),
     saveUninitialized: true,
     cookie: {
-      maxAge: configs.sessionTimeOut,
+      maxAge: config.sessionTimeOut,
       secure: false,
       httpOnly: true,
     },
@@ -33,14 +28,13 @@ async function startServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    dataSources: datasources,
     context: ({ req, res }) => ({ req, res }),
   });
 
   await server.start();
 
   server.applyMiddleware({ app });
-
-  // app.get('/facebook-auth', passport.authenticate('facebook', { scope: ['email'] }));
 
   app.listen(4000, () => {
     logger.info(`🚀. Server ready at http://localhost:4000${server.graphqlPath}`);
