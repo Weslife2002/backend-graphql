@@ -9,9 +9,9 @@ if (config.nodeEnv !== 'test') {
   mongoose.set('strictQuery', true);
   mongoose.connect(config.mongo.database, config.mongo.options, err => {
     if (err) {
-      logger.info(`mongodb connection failed ${err}`);
+      console.log(`mongodb connection failed ${err}`);
     } else {
-      logger.info('hello from mongodb');
+      console.log('hello from mongodb');
     }
   });
 }

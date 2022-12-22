@@ -1,0 +1,4 @@
+type Query {
+  getHeadCommentsByPostId(postId: String!): [HeadComment!]!
+  getAllRepliesComment(headCommentId: String!): [ReplyComment!]!
+}

@@ -1,4 +1,4 @@
-const userShortController = require('./userShortController');
+const userShortController = require('./userController');
 
 module.exports = {
   ...userShortController,

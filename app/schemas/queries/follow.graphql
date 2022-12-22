@@ -1,4 +1,4 @@
 type Query {
-  getAllFollowersByEmail(email: String!): [UserShort!]!
-  getAllFolloweesByEmail(email: String!): [UserShort!]!
+  getAllFollowersByUserId(userId: String!): [UserShort!]!
+  getAllFolloweesByUserId(userId: String!): [UserShort!]!
 }

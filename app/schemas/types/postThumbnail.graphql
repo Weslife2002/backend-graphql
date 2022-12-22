@@ -1,6 +1,6 @@
 type PostThumbnail {
   _id: String!
-  postContentId: String!
+  postId: String!
   author: UserShort!
   topicCluster: String!
   tags: [String!]!

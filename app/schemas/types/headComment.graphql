@@ -1,7 +1,6 @@
 type HeadComment {
   _id: String!
   author: UserShort!
-  postContentId: String!
   content: String!
   numberOfReplies: Int!
   replies: [ReplyComment!]!

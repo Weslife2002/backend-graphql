@@ -1,7 +1,7 @@
 const UAParser = require('ua-parser-js');
 const hash = require('../otherUtils/hash');
 const redisClient = require('../redisUtils/redisClient');
-const { sessionTimeOut } = require('../../config');
+const { sessionTimeOut } = require('../../../config');
 
 function manageSessionsOnLogin(req, user) {
   const { email } = user;

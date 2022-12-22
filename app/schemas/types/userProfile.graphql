@@ -1,7 +1,6 @@
-"Only query for user authentication"
+"Only query for user"
 type UserProfile {
   _id: String!
-  userId: String!
   email: String!
   username: String!
   photoUrl: String!

@@ -1,6 +1,6 @@
 module.exports = {
-  findUserShortByEmail: async (_, { email }, { dataSources }, info) => {
-    const foundUserShort = dataSources.findUserShortByEmail({ email }, _, info);
+  findUserShortByUserId: async (_, { userId }, { dataSources }, info) => {
+    const foundUserShort = dataSources.findUserShortByUserId({ userId }, _, info);
     return foundUserShort;
   },
 };

@@ -8,7 +8,7 @@ const userAccount = require('./userAccount');
 
 module.exports = {
   ...email,
-  ...mongo,
+  mongo,
   ...session,
   ...others,
   ...google,

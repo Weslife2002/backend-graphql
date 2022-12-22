@@ -1,4 +1,4 @@
 type Mutation {
-  commentPost(postContentId: String!, content: String!): CommentPostResponse
+  commentPost(postId: String!, content: String!): CommentPostResponse
   replyComment(headCommentId: String, replyCommentId: String, content: String!): ReplyCommentResponse
 }

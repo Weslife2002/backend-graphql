@@ -7,7 +7,7 @@ const postThumbnailSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
-  postContentId: {
+  postId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post',
     required: true,

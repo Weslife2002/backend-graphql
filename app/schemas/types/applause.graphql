@@ -1,5 +1,0 @@
-type Applause {
-  email: String!
-  numberOfClaps: Int!
-  postContentId: String!
-}
