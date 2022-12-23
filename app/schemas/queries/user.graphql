@@ -1,5 +1,5 @@
 type Query {
-  findUserShortByUserId(userId: String!): UserShort
-  getAllLoginDevices: [Device!]!
+  user(userId: String!): UserShort
+  getAllLoginDevices: [Device]
   resetPasswordRequest: [Device!]!
 }

@@ -1,7 +1,7 @@
 type Device {
-  email: String!
-  deviceId: String!
-  description: String!
+  email: String
+  deviceId: String
+  description: String
 }
 
 scalar Date

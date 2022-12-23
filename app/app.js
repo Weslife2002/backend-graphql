@@ -6,7 +6,6 @@ const datasources = require('./datasources');
 const redisClient = require('./datasources/utils/redisUtils/redisClient');
 const resolvers = require('./resolvers');
 const config = require('./config');
-const { logger } = require('./global');
 const typeDefs = require('./schemas');
 
 const RedisStore = ConnectRedis(session);

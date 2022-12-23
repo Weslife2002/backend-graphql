@@ -1,5 +1,5 @@
 type Mutation {
-  userSignUp(userSignUpInput: userSignUpInput!): UserSignUpReponse!
+  signUpUser(signUpUserInput: signUpUserInput!): SignUpUserReponse!
   userAuth(email: String!, password: String!): UserAuthReponse!
   updateMyAccount(photo: String, bio: String): UpdateAccountResponse!
   endMyAccountSession: GeneralMutationResponse!

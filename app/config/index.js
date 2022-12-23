@@ -1,17 +1,13 @@
 const mongo = require('./mongo');
+const mongoose = require('./mongoose');
 const session = require('./session');
-const others = require('./others');
+const token = require('./token');
 const email = require('./email');
-const google = require('./google');
-const facebook = require('./facebook');
-const userAccount = require('./userAccount');
 
 module.exports = {
-  ...email,
+  email,
   mongo,
-  ...session,
-  ...others,
-  ...google,
-  ...facebook,
-  ...userAccount,
+  mongoose,
+  session,
+  token,
 };

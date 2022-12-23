@@ -1,22 +1,22 @@
+type SignUpUserReponse implements MutationResponse{
+  code: Int!
+  success: Boolean!
+  message: String!
+  newUser: UserSession
+}
+
 type UserSession {
-  email: String!
+  userId: String!
   username: String!
   photoUrl: String!
-  followingTopics: [String!]!
-  numberOfNewNotifications: Int!
+  role: String!
+  newNotificationsNo: Int!
 }
 
 type UserUpdatedInfo {
   username: String!
   photoUrl: String!
   bio: String!
-}
-
-type UserSignUpReponse implements MutationResponse{
-  code: Int!
-  success: Boolean!
-  message: String!
-  newUser: UserSession
 }
 
 type UserAuthReponse {

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const config = require('../../config');
 
 const userAccountSchema = new mongoose.Schema({
   email: {
@@ -38,7 +39,7 @@ const userAccountSchema = new mongoose.Schema({
   photoUrl: {
     type: String,
     required: true,
-    default: 'defaultPhoto.png',
+    default: config.mongoose.userDefaultValue.photoUrl,
   },
   newNotificationsNO: {
     type: Number,
