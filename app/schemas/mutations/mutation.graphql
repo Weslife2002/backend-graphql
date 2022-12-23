@@ -1,5 +1,5 @@
 type Mutation {
-  register(email: String!, username: String!, password: String!): User
+  register(email: String!, username: String!, password: String!): SignUpResponse
   login(username: String!, password: String!): LoginResponse
   disableUser(id: ID): GeneralResponse # Admin only
   follow(followee: ID): GeneralResponse

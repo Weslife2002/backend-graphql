@@ -12,7 +12,8 @@ function getAllSchemaFilesName(currentfolder) {
     folderName => folderName.match(/^\w+$/),
   );
   folderNames.forEach(folderName => {
-    const folderSchemaFileNames = getAllSchemaFilesName(`${currentfolder}/${folderName}`).map(filename => `${folderName}/${filename}`);
+    const folderSchemaFileNames = getAllSchemaFilesName(`${currentfolder}/${folderName}`)
+      .map(filename => `${folderName}/${filename}`);
     graphqlFileNames = graphqlFileNames.concat(folderSchemaFileNames);
   });
   return graphqlFileNames;
@@ -24,6 +25,6 @@ const loadedSchemas = schemaFileNames.map(
   schemaFile => readFileSync(currentPath + schemaFile, { encoding: 'utf-8' }),
 );
 
-const typeDefs = gql(loadedSchemas.join('\n'));
+const typeDefs = loadedSchemas.join('\n');
 
 module.exports = typeDefs;

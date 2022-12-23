@@ -1,7 +1,11 @@
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
+const Query = require('./queryResolver');
+const Mutation = require('./mutationResolver');
 
 const resolvers = {
+  Query,
+  Mutation,
   DateTime: new GraphQLScalarType({
     name: 'DateTime',
     description: 'Date custom scalar type',

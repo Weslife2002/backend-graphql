@@ -1,9 +1,10 @@
-const { UserShort } = require('../../models');
+const { User } = require('../../models');
 const getSelectedFields = require('../../utils/general/getSelectedFields');
 
 module.exports = async ({ _id }, _, info) => {
   const selectedFields = getSelectedFields(info);
-  const user = await UserShort.findOne({ _id }).select(selectedFields);
+  const user = await User.findOne({ _id }).select(selectedFields);
+  console.log({ selectedFields });
   console.log({ user });
   return user;
 };

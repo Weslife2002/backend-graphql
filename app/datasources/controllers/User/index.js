@@ -1,7 +1,9 @@
 const find = require('./find');
-const signUp = require('./signUp');
+const login = require('./login');
+const register = require('./register');
 
 module.exports = {
   find,
-  signUp,
+  login,
+  register,
 };

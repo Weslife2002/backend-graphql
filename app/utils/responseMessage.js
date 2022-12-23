@@ -1,7 +1,6 @@
-function responseMessage(code, success, message, returnObject) {
+function responseMessage(isSuccess, message, returnObject) {
   return {
-    code,
-    success,
+    isSuccess,
     message,
     ...returnObject,
   };
