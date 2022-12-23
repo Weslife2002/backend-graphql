@@ -1,21 +1,15 @@
-const Applause = require('./Applause');
-const ReplyComment = require('./ReplyComment');
-const HeadComment = require('./HeadComment');
+const Clap = require('./Clap');
+const Comment = require('./Comment');
 const Follow = require('./Follow');
 const Post = require('./Post');
-const PostThumbnail = require('./PostThumbnail');
-const UserAccount = require('./UserAccount');
-const UserProfile = require('./UserProfile');
-const UserShort = require('./UserShort');
+const User = require('./User');
 
-module.exports = {
-  Applause,
-  ReplyComment,
-  HeadComment,
+const models = {
+  Clap,
+  Comment,
   Follow,
   Post,
-  PostThumbnail,
-  UserAccount,
-  UserProfile,
-  UserShort,
+  User,
 };
+
+module.exports = models;

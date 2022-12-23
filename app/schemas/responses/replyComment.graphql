@@ -1,6 +1,0 @@
-type ReplyCommentResponse implements MutationResponse {
-  code: Int!
-  success: Boolean!
-  message: String!
-  newComment: ReplyComment
-}

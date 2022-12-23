@@ -1,5 +1,0 @@
-type Query {
-  getPostById(postId: String!): Post!
-  getMyPostThumnails: [PostThumbnail!]!
-  getAllPostThumbnailsByEmail: [PostThumbnail!]!
-}

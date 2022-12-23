@@ -1,5 +1,0 @@
-input signUpUserInput {
-  email: String!
-  username: String!
-  password: String!
-}

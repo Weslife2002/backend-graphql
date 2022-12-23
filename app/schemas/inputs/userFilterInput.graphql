@@ -1,5 +1,0 @@
-type userFilterInput{
-  userId: ID,
-  username: String,
-  email: String, 
-}

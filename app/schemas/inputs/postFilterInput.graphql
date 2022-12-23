@@ -1,7 +1,0 @@
-type postFilterInput {
-  owner: ID
-  title: String
-
-  limit: Int
-  offset: Int
-}

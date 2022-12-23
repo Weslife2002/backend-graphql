@@ -1,5 +1,0 @@
-type Query {
-  user(userId: String!): UserShort
-  getAllLoginDevices: [Device]
-  resetPasswordRequest: [Device!]!
-}

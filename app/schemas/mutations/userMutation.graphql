@@ -1,9 +1,0 @@
-type Mutation {
-  signUpUser(signUpUserInput: signUpUserInput!): SignUpUserReponse!
-  userAuth(email: String!, password: String!): UserAuthReponse!
-  updateMyAccount(photo: String, bio: String): UpdateAccountResponse!
-  endMyAccountSession: GeneralMutationResponse!
-  logOutAnDevice(deviceId: String): GeneralMutationResponse!
-  deleteMyAccount: GeneralMutationResponse!
-  deleteAccountByAdmin(email: String!): GeneralMutationResponse!
-}

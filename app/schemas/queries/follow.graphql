@@ -1,4 +1,0 @@
-type Query {
-  getAllFollowersByUserId(userId: String!): [UserShort!]!
-  getAllFolloweesByUserId(userId: String!): [UserShort!]!
-}

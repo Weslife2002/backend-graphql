@@ -1,4 +1,0 @@
-type Mutation {
-  applausePost(postId: String!, applaused: Boolean!): GeneralMutationResponse!
-  unApplausePost(postId: String!, applaused: Boolean!): GeneralMutationResponse!
-}

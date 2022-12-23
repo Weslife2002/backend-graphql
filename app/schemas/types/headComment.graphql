@@ -1,7 +1,0 @@
-type HeadComment {
-  _id: String!
-  author: UserShort!
-  content: String!
-  numberOfReplies: Int!
-  replies: [ReplyComment!]!
-}

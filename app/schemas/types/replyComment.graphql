@@ -1,8 +1,0 @@
-type ReplyComment {
-  _id: String!
-  author: UserShort!
-  content: String!
-  repliesNo: Int!
-  clapsNo: Int!
-  replies: [ReplyComment!]!
-}
