@@ -1,5 +1,4 @@
 const { readFileSync, readdirSync } = require('fs');
-const gql = require('graphql-tag');
 
 const currentPath = './app/schemas/';
 

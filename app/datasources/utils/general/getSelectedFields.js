@@ -34,7 +34,7 @@ function getLastSelectedFieldsRecursive(selections) {
   selections.forEach(
     selection => {
       if (selection.selectionSet) {
-        selectedFields = union(selectedFields, getRawSelectedFieldsRecursive(selection.selectionSet.selections));
+        selectedFields = union(selectedFields, getLastSelectedFieldsRecursive(selection.selectionSet.selections));
       } else {
         selectedFields = union(selectedFields, [selection.name.value]);
       }
