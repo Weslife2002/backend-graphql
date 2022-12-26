@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const UAParser = require('ua-parser-js');
 const { User } = require('../../models');
-const cacheUser = require('../../utils/account/cacheUser');
+const cacheUser = require('../../utils/redis/cacheUser');
 
 module.exports = async ({ email, username, password }, { req }) => {
   const userAgent = UAParser(req.headers['user-agent']);
@@ -12,12 +12,10 @@ module.exports = async ({ email, username, password }, { req }) => {
     .replace(/\//g, '_')
     .replace(/=/g, '');
   const newUser = await User.create({ email, username, password }).then(
-    userInstance => userInstance.save().then(
-      savedUser => savedUser,
-    ),
+    userInstance => userInstance.save(),
   );
-  cacheUser(username, token, userAgent, {
-    username,
+  cacheUser(newUser._id, token, userAgent, {
+    id: newUser._id,
     role: newUser.role,
   });
   return { newUser, token };

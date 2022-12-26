@@ -1,3 +1,4 @@
+const disableUser = require('./disableUser');
 const find = require('./find');
 const getSession = require('./getSession');
 const login = require('./login');
@@ -7,11 +8,12 @@ const user = require('./user');
 const users = require('./users');
 
 module.exports = {
+  disableUser,
   find,
-  login,
-  register,
   getSession,
+  login,
   me,
+  register,
   user,
   users,
 };
