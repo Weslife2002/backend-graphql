@@ -6,7 +6,7 @@ const startServer = async () => {
   await server.start();
   server.applyMiddleware({ app });
   app.listen(config.server.port, () => {
-    logger.info(`🚀. Server ready at http://localhost:4000${server.graphqlPath}`);
+    console.log(`🚀. Server ready at http://localhost:${config.server.port}${server.graphqlPath}`);
   });
 
   process.on('uncaughtException', exception => {

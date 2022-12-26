@@ -4,7 +4,6 @@ const deletePost = require('./deletePost');
 const createPost = require('./createPost');
 const hidePost = require('./hidePost');
 const updatePost = require('./updatePost');
-const clapCount = require('../Clap/clapCount');
 
 module.exports = {
   post,
@@ -13,5 +12,4 @@ module.exports = {
   createPost,
   hidePost,
   updatePost,
-  clapCount,
 };

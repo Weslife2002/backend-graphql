@@ -1,9 +1,9 @@
 type Clap {
   _id: ID
   user: User
-  post: Post
   count: Int
 
+  post: Post
   comment: Comment
 
   createdAt: DateTime

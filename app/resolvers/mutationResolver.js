@@ -91,8 +91,8 @@ module.exports = {
   clapPost: async (_, { id }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
+      await dataSources.Clap.clapPost(id, token);
+      return responseMessage(true, 'Clap post successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
@@ -100,8 +100,8 @@ module.exports = {
   unclapPost: async (_, { id }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
+      await dataSources.Clap.unClapPost(id, token);
+      return responseMessage(true, 'Unclap post successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }

@@ -8,7 +8,7 @@ const Clap = new mongoose.Schema({
   postOwner: { type: ObjectId, required: true },
   comment: { type: ObjectId },
 
-  count: { type: Number },
+  count: { type: Number, default: 1 },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Clap', Clap);
