@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema({
   content: { type: String, required: true },
   owner: { type: ObjectId, required: true },
 
-  status: { type: String, enum: ['Draft', 'Visible', 'Hidden', 'Deleted'] },
+  status: { type: String, enum: ['Draft', 'Visible', 'Hidden', 'Deleted'], default: 'Draft' },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Post', postSchema);
