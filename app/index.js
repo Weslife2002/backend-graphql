@@ -5,9 +5,6 @@ const { app, server } = require('./app');
 const startServer = async () => {
   await server.start();
   server.applyMiddleware({ app });
-  // const server = app.listen(config.port, '0.0.0.0', () => {
-  //   logger.info(`🚀 Running on port ${config.port}`);
-  // });
   app.listen(config.server.port, () => {
     logger.info(`🚀. Server ready at http://localhost:4000${server.graphqlPath}`);
   });
