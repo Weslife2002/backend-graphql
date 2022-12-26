@@ -15,7 +15,7 @@ module.exports = async ({ req, res }) => {
     'me',
     'replies',
     'follow', 'unfollow',
-    'createPost', 'deletePost', 'hidePost',
+    'createPost', 'deletePost', 'hidePost', 'updatePost',
     'clapPost', 'unclapPost',
     'clapComment', 'unclapComment',
     'comment', 'updateComment', 'reply', 'deleteComment',
