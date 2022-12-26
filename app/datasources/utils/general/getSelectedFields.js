@@ -51,7 +51,9 @@ function getSelectedFields(info, options = {}) {
     return finalSelectedFields;
   }
   if (lastOnly) {
-    return getLastSelectedFieldsRecursive(info.fieldNodes);
+    const selectedFields = getLastSelectedFieldsRecursive(info.fieldNodes);
+    const finalSelectedFields = union(selectedFields, additionalFields);
+    return finalSelectedFields;
   }
   const selectedFields = getRawSelectedFieldsRecursive(info.fieldNodes).map(
     rawSelectedField => rawSelectedField.match(/\..+/)[0].substring(1),

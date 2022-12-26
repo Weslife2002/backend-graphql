@@ -1,8 +1,8 @@
 const hash = require('../general/hash');
-const redisClient = require('../redis/redisClient');
+const redisClient = require('./redisClient');
 const config = require('../../../config');
 
-module.exports = async (username, token, userAgent, cachedData = {}) => {
+module.exports = async (id, token, userAgent, cachedData = {}) => {
   const loginTime = Date.now();
   const device = {
     deviceId: hash(`${loginTime}${Math.floor(Math.random() * 2 ** 32)}`),
@@ -12,7 +12,7 @@ module.exports = async (username, token, userAgent, cachedData = {}) => {
     ...cachedData,
     device,
     loginTime,
-  })), redisClient.lpush(username, token)]);
+  })), redisClient.lpush(id, token)]);
   redisClient.pexpire(token, config.session.sessionTimeOut);
-  redisClient.pexpire(username, config.session.sessionTimeOut);
+  redisClient.pexpire(id, config.session.sessionTimeOut);
 };
