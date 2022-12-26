@@ -7,6 +7,7 @@ module.exports = async ({ req, res }) => {
   // const graphqlQuery = req.body.query;
   const guestScope = [
     'getSession', // Debug only
+    'users',
     'post', 'posts',
     'register', 'login',
   ];
