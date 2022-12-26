@@ -1,0 +1,6 @@
+enum postStatus {
+  Draft
+  Visible
+  Hidden
+  Deleted
+}
