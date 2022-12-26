@@ -1,4 +1,5 @@
 require('../global');
+const { GraphQLError } = require('graphql');
 const responseMessage = require('../utils/responseMessage');
 
 module.exports = {
@@ -31,57 +32,57 @@ module.exports = {
       return responseMessage(false, error.message);
     }
   },
-  follow: async (_, { id }, { dataSources, req }) => {
+
+  follow: async (_, { followee }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Follow.follow(id, token);
+      await dataSources.Follow.follow(followee, token);
       return responseMessage(true, 'Follow user successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
   },
-  unfollow: async (_, { id }, { dataSources, req }) => {
+  unfollow: async (_, { followee }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Follow.unfollow(id, token);
+      await dataSources.Follow.unfollow(followee, token);
       return responseMessage(true, 'Unfollow user successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
   },
 
-  createPost: async (_, { title, content, status }, { dataSources, req }, info) => {
+  createPost: async (_, { title, content, status }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.createPost(title, content, status, token, info);
-      return responseMessage(true, 'Unfollow user successfully');
+      const post = await dataSources.Post.createPost(title, content, status, token);
+      return post;
+    } catch (error) {
+      throw new GraphQLError(error.message);
+    }
+  },
+  updatePost: async (_, { input }, { dataSources, req }, info) => {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      return await dataSources.Post.updatePost(input, token, info);
+    } catch (error) {
+      throw new GraphQLError(error.message);
+    }
+  },
+  deletePost: async (_, { _id }, { dataSources, req }) => {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      await dataSources.Post.deletePost(_id, token);
+      return responseMessage(true, 'Delete post successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
   },
-  updatePost: async (_, { id }, { dataSources, req }, info) => {
+  hidePost: async (_, { _id }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
-    } catch (error) {
-      return responseMessage(false, error.message);
-    }
-  },
-  deletePost: async (_, { id }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
-    } catch (error) {
-      return responseMessage(false, error.message);
-    }
-  },
-  hidePost: async (_, { id }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
+      await dataSources.Post.hidePost(_id, token);
+      return responseMessage(true, 'Hide post successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
