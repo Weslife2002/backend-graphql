@@ -100,7 +100,7 @@ module.exports = {
   unclapPost: async (_, { postId }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Clap.unClapPost(postId, token);
+      await dataSources.Clap.unclapPost(postId, token);
       return responseMessage(true, 'Unclap post successfully');
     } catch (error) {
       return responseMessage(false, error.message);
@@ -152,17 +152,15 @@ module.exports = {
   },
   deleteComment: async (_, { _id }, { dataSources, req }) => {
     try {
-      await dataSources.loaders.comment.deleteComment.load(_id);
+      const token = req.headers.authorization.split(' ')[1];
+      await dataSources.Comment.deleteComment(
+        _id,
+        token,
+        dataSources.loaders.Comment.deleteComment,
+      );
       return responseMessage(true, 'Delete comment successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
-    // try {
-    //   const token = req.headers.authorization.split(' ')[1];
-    //   await dataSources.Comment.deleteComment(_id, token);
-    //   return responseMessage(true, 'Delete comment successfully');
-    // } catch (error) {
-    //   return responseMessage(false, error.message);
-    // }
   },
 };
