@@ -88,79 +88,81 @@ module.exports = {
     }
   },
 
-  clapPost: async (_, { id }, { dataSources, req }) => {
+  clapPost: async (_, { postId, count = 1 }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Clap.clapPost(id, token);
+      await dataSources.Clap.clapPost({ postId, count }, token);
       return responseMessage(true, 'Clap post successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
   },
-  unclapPost: async (_, { id }, { dataSources, req }) => {
+  unclapPost: async (_, { postId }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Clap.unClapPost(id, token);
+      await dataSources.Clap.unClapPost(postId, token);
       return responseMessage(true, 'Unclap post successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
   },
 
-  clapComment: async (_, { id }, { dataSources, req }) => {
+  clapComment: async (_, { commentId, count = 1 }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
+      await dataSources.Clap.clapComment({ commentId, count }, token);
+      return responseMessage(true, 'Clap comment successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
   },
-  unclapComment: async (_, { id }, { dataSources, req }) => {
+  unclapComment: async (_, { commentId }, { dataSources, req }) => {
     try {
       const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
-    } catch (error) {
-      return responseMessage(false, error.message);
-    }
-  },
-
-  comment: async (_, { id }, { dataSources, req }, info) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
-    } catch (error) {
-      return responseMessage(false, error.message);
-    }
-  },
-  updateComment: async (_, { id }, { dataSources, req }, info) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
-    } catch (error) {
-      return responseMessage(false, error.message);
-    }
-  },
-  reply: async (_, { id }, { dataSources, req }, info) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
-    } catch (error) {
-      return responseMessage(false, error.message);
-    }
-  },
-  deleteComment: async (_, { id }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.updatePost(id, token);
-      return responseMessage(true, 'Unfollow user successfully');
+      await dataSources.Clap.unclapComment(commentId, token);
+      return responseMessage(true, 'Unclap comment successfully');
     } catch (error) {
       return responseMessage(false, error.message);
     }
   },
 
+  comment: async (_, { input }, { dataSources, req }) => {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      return (await dataSources.Comment.comment(input, token));
+    } catch (error) {
+      throw new GraphQLError(error.message);
+    }
+  },
+  updateComment: async (_, { input }, { dataSources, req }, info) => {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      return (await dataSources.Comment.updateComment(input, token, info));
+    } catch (error) {
+      throw new GraphQLError(error.message);
+    }
+  },
+  reply: async (_, { input }, { dataSources, req }) => {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      return (await dataSources.Comment.reply(input, token));
+    } catch (error) {
+      throw new GraphQLError(error.message);
+    }
+  },
+  deleteComment: async (_, { _id }, { dataSources, req }) => {
+    try {
+      await dataSources.loaders.comment.deleteComment.load(_id);
+      return responseMessage(true, 'Delete comment successfully');
+    } catch (error) {
+      return responseMessage(false, error.message);
+    }
+    // try {
+    //   const token = req.headers.authorization.split(' ')[1];
+    //   await dataSources.Comment.deleteComment(_id, token);
+    //   return responseMessage(true, 'Delete comment successfully');
+    // } catch (error) {
+    //   return responseMessage(false, error.message);
+    // }
+  },
 };
