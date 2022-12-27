@@ -1,4 +1,5 @@
 input ReplyCommentInput {
+  postId: ID!
   commentId: ID!
 
   title: String

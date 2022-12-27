@@ -1,6 +1,5 @@
 input CommentInput {
   postId: ID!
-  comment: ID
 
   title: String
   content: String
