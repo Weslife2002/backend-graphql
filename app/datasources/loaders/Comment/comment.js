@@ -7,7 +7,7 @@ async function batchDeleteComments(keys) {
   const rawChildComments = await Comment.find({ parent: keys }).select('_id');
   const childComments = rawChildComments.map(childComment => childComment._id);
   loader.loadMany(childComments);
-  await Comment.deleteMany({ parent: keys });
+  await Comment.deleteMany({ _id: keys });
   return keys;
 }
 

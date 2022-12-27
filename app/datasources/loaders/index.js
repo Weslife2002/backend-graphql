@@ -1,5 +1,13 @@
-const comment = require('./comment');
+const Comment = require('./Comment');
+const User = require('./User');
+const Follow = require('./Follow');
+const Clap = require('./Clap');
+const Post = require('./Post');
 
 module.exports = {
-  comment,
+  Comment,
+  User,
+  Follow,
+  Clap,
+  Post,
 };
