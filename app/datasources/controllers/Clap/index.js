@@ -1,11 +1,11 @@
 const clapPost = require('./clapPost');
 const clapComment = require('./clapComment');
-const unClapComment = require('./unClapComment');
-const unClapPost = require('./unClapPost');
+const unclapComment = require('./unclapComment');
+const unclapPost = require('./unclapPost');
 
 module.exports = {
   clapComment,
   clapPost,
-  unClapComment,
-  unClapPost,
+  unclapComment,
+  unclapPost,
 };

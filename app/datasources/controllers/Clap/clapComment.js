@@ -1,14 +1,14 @@
 const { Clap } = require('../../models');
 const getUserId = require('../../utils/redis/getUserId');
 
-module.exports = (id, token) => {
-  const user = getUserId(token);
-  return Clap.find({ user, comment: id }).then(
+module.exports = async ({ commentId, count }, token) => {
+  const user = await getUserId(token);
+  return Clap.find({ user, comment: commentId }).then(
     clapInstance => {
       if (clapInstance) {
-        return Clap.updateOne({ user, comment: id }, { $inc: { count: 1 } });
+        return Clap.updateOne({ user, comment: commentId }, { $inc: { count } });
       }
-      return Clap.create({ user, post: id, comment: 1 }).then(
+      return Clap.create({ user, comment: commentId, count }).then(
         createdInstance => createdInstance.save(),
       );
     },

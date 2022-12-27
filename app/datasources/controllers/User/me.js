@@ -5,7 +5,7 @@ const getSelectedFields = require('../../utils/general/getSelectedFields');
 module.exports = async (token, info) => {
   const rawData = await redisClient.get(token);
   const user = await User.findOne({
-    username: JSON.parse(rawData).username,
+    _id: JSON.parse(rawData).id,
   }).select(getSelectedFields(info, { lastOnly: true }));
   return user;
 };
