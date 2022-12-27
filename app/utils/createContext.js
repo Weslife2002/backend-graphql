@@ -12,6 +12,7 @@ module.exports = async ({ req, res }) => {
     'register', 'login',
   ];
   const userScope = [
+    'logout',
     'me',
     'replies',
     'follow', 'unfollow',

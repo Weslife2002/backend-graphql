@@ -23,6 +23,15 @@ module.exports = {
       return responseMessage(false, error.message);
     }
   },
+  logout: async (_, __, { dataSources, req }) => {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      await dataSources.User.logout(token);
+      return responseMessage(true, 'Log out successfully');
+    } catch (error) {
+      return responseMessage(false, error.message);
+    }
+  },
 
   disableUser: async (_, { id }, { dataSources }) => {
     try {
