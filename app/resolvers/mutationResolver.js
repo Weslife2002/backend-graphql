@@ -1,5 +1,6 @@
 require('../global');
 const { GraphQLError } = require('graphql');
+const { logger } = require('../global');
 const responseMessage = require('../utils/responseMessage');
 
 module.exports = {
@@ -8,6 +9,7 @@ module.exports = {
       const { newUser, token } = await dataSources.User.register({ email, username, password }, { req });
       return responseMessage(true, 'Register successfully', { newUser, token });
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -20,6 +22,7 @@ module.exports = {
       );
       return responseMessage(true, 'Authentication successfully', { user, token });
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -29,6 +32,7 @@ module.exports = {
       await dataSources.User.logout(token);
       return responseMessage(true, 'Log out successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -38,6 +42,7 @@ module.exports = {
       await dataSources.User.disableUser(id);
       return responseMessage(true, 'Disable user successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -48,6 +53,7 @@ module.exports = {
       await dataSources.Follow.follow(followee, token);
       return responseMessage(true, 'Follow user successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -57,6 +63,7 @@ module.exports = {
       await dataSources.Follow.unfollow(followee, token);
       return responseMessage(true, 'Unfollow user successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -67,6 +74,7 @@ module.exports = {
       const post = await dataSources.Post.createPost(title, content, status, token);
       return post;
     } catch (error) {
+      logger.error(error.stack);
       throw new GraphQLError(error.message);
     }
   },
@@ -75,6 +83,7 @@ module.exports = {
       const token = req.headers.authorization.split(' ')[1];
       return await dataSources.Post.updatePost(input, token, info);
     } catch (error) {
+      logger.error(error.stack);
       throw new GraphQLError(error.message);
     }
   },
@@ -84,6 +93,7 @@ module.exports = {
       await dataSources.Post.deletePost(_id, token);
       return responseMessage(true, 'Delete post successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -93,6 +103,7 @@ module.exports = {
       await dataSources.Post.hidePost(_id, token);
       return responseMessage(true, 'Hide post successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -103,6 +114,7 @@ module.exports = {
       await dataSources.Clap.clapPost({ postId, count }, token);
       return responseMessage(true, 'Clap post successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -112,6 +124,7 @@ module.exports = {
       await dataSources.Clap.unclapPost(postId, token);
       return responseMessage(true, 'Unclap post successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -122,6 +135,7 @@ module.exports = {
       await dataSources.Clap.clapComment({ commentId, count }, token);
       return responseMessage(true, 'Clap comment successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -131,6 +145,7 @@ module.exports = {
       await dataSources.Clap.unclapComment(commentId, token);
       return responseMessage(true, 'Unclap comment successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
@@ -140,6 +155,7 @@ module.exports = {
       const token = req.headers.authorization.split(' ')[1];
       return (await dataSources.Comment.comment(input, token));
     } catch (error) {
+      logger.error(error.stack);
       throw new GraphQLError(error.message);
     }
   },
@@ -148,6 +164,7 @@ module.exports = {
       const token = req.headers.authorization.split(' ')[1];
       return (await dataSources.Comment.updateComment(input, token, info));
     } catch (error) {
+      logger.error(error.stack);
       throw new GraphQLError(error.message);
     }
   },
@@ -156,6 +173,7 @@ module.exports = {
       const token = req.headers.authorization.split(' ')[1];
       return (await dataSources.Comment.reply(input, token));
     } catch (error) {
+      logger.error(error.stack);
       throw new GraphQLError(error.message);
     }
   },
@@ -169,6 +187,7 @@ module.exports = {
       );
       return responseMessage(true, 'Delete comment successfully');
     } catch (error) {
+      logger.error(error.stack);
       return responseMessage(false, error.message);
     }
   },
