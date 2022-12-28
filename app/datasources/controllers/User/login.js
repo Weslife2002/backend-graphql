@@ -5,7 +5,7 @@ const cacheUser = require('../../utils/redis/cacheUser');
 
 const getSelectedFields = require('../../utils/general/getSelectedFields');
 
-module.exports = async ({ username, password }, info) => {
+module.exports = async ({ username, password }, {}, info) => {
   const randomString = crypto.randomBytes(12).toString('base64')
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
