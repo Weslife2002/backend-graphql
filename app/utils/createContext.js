@@ -28,7 +28,8 @@ module.exports = async ({ req, res }) => {
   let role;
   let graphqlQuery;
   try {
-    role = await getRole(req.headers.authorization);
+    const token = req.headers.authorization.split(' ')[1];
+    role = await getRole(token);
     graphqlQuery = gql`${req.body.query}`;
   } catch (error) {
     throw GraphQLError(error.message);
