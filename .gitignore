@@ -1,4 +1,5 @@
 .env
+.gitadd
 node_modules/
 
 app/logger
