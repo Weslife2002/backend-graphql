@@ -1,3 +1,1 @@
-const redisClient = require('./redisClient');
-
-module.exports = async token => JSON.parse(await redisClient.get(token)).id;
+module.exports = async token => token.split(':')[1];

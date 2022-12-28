@@ -28,11 +28,11 @@ module.exports = async ({ req, res }) => {
   let role;
   let graphqlQuery;
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization?.split(' ')[1];
     role = await getRole(token);
     graphqlQuery = gql`${req.body.query}`;
   } catch (error) {
-    throw GraphQLError(error.message);
+    throw new GraphQLError(error.message);
   }
   switch (role) {
     case 'User':

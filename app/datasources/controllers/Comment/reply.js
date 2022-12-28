@@ -8,7 +8,7 @@ module.exports = async ({ postId, commentId, title, content }, token) => {
     post: postId, comment: commentId,
   }));
   if (!comment) {
-    throw GraphQLError('The post doesn\'t contain the parent comment');
+    throw new GraphQLError('The post doesn\'t contain the parent comment');
   }
   const user = await getUserId(token);
   return Comment.create(removeUndefinedValue({

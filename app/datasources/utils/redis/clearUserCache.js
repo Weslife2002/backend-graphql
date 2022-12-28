@@ -1,7 +1,14 @@
 const redisClient = require('./redisClient');
 
 module.exports = async id => {
-  const tokenList = await redisClient.lrange(id, 0, -1);
-  const deleteCommands = tokenList.map(token => redisClient.del(token));
-  deleteCommands.push(redisClient.del(id));
+  let cursor = 0;
+  let keys = [];
+  do {
+    [cursor, keys] = redisClient.scan(cursor, `${id}:*`);
+    keys.forEach(key => {
+      redisClient.del(key);
+    });
+    console.log(cursor);
+    console.log(keys);
+  } while (cursor !== 0);
 };

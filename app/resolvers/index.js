@@ -5,13 +5,6 @@ const Mutation = require('./mutationResolver');
 const resolvers = {
   ...resolver,
   Query,
-  // Query: (() => {
-  //   try {
-  //     return Query;
-  //   } catch (error) {
-  //     throw GraphQLError('went here');
-  //   }
-  // }),
   Mutation,
 };
 

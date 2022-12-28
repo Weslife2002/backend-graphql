@@ -1,11 +1,9 @@
 const crypto = require('crypto');
-const UAParser = require('ua-parser-js');
 const { User } = require('../../models');
 const cacheUser = require('../../utils/redis/cacheUser');
 
-module.exports = async ({ email, username, password }, { req }) => {
-  const userAgent = UAParser(req.headers['user-agent']);
-  const token = crypto
+module.exports = async ({ email, username, password }) => {
+  const randomString = crypto
     .randomBytes(12)
     .toString('base64')
     .replace(/\+/g, '-')
@@ -14,9 +12,7 @@ module.exports = async ({ email, username, password }, { req }) => {
   const newUser = await User.create({ email, username, password }).then(
     userInstance => userInstance.save(),
   );
-  cacheUser(newUser._id, token, userAgent, {
-    id: newUser._id,
-    role: newUser.role,
-  });
+  const token = `${newUser._id}:${randomString}`;
+  cacheUser(`${newUser._id}:${randomString}`, newUser.role);
   return { newUser, token };
 };
