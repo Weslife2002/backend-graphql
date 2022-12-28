@@ -4,6 +4,6 @@ module.exports = async token => {
   if (!token) {
     return 'Guest';
   }
-  const rawData = await redisClient.get(token.split(' ')[1]);
+  const rawData = await redisClient.get(token);
   return rawData ? JSON.parse(rawData).role : 'Guest';
 };
