@@ -5,10 +5,6 @@ module.exports = async id => {
   let keys = [];
   do {
     [cursor, keys] = redisClient.scan(cursor, `${id}:*`);
-    keys.forEach(key => {
-      redisClient.del(key);
-    });
-    console.log(cursor);
-    console.log(keys);
+    redisClient.del(keys);
   } while (cursor !== 0);
 };
