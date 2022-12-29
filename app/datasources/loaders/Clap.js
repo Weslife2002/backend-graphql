@@ -1,9 +1,6 @@
-const DataLoader = require('dataloader');
-const { Clap } = require('../../models');
+const { Clap } = require('../models');
 
-const loader = (new DataLoader(keys => batchDeleteComments(keys)));
-
-async function batchDeleteComments(keys) {
+async function batchClapCountOfPost(keys) {
   const clapCount = await Clap.aggregate([{
     $match: { post: { $in: keys } },
   }, {
@@ -24,4 +21,6 @@ async function batchDeleteComments(keys) {
   return keys.map(key => clapMap.get(key.toString()) || 0);
 }
 
-module.exports = loader;
+module.exports = {
+  batchClapCountOfPost,
+};

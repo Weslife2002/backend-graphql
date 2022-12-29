@@ -1,9 +1,6 @@
-const DataLoader = require('dataloader');
-const { Follow } = require('../../models');
+const { Follow } = require('../models');
 
-const loader = (new DataLoader(keys => batchDeleteComments(keys)));
-
-async function batchDeleteComments(keys) {
+async function batchFollowerCountOfUser(keys) {
   const followerCount = await Follow.aggregate([{
     $match: { followee: { $in: keys } },
   }, {
@@ -24,4 +21,6 @@ async function batchDeleteComments(keys) {
   return keys.map(key => followerCountMap.get(key.toString()) || 0);
 }
 
-module.exports = loader;
+module.exports = {
+  batchFollowerCountOfUser,
+};

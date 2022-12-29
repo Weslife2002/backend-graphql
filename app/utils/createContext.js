@@ -1,12 +1,12 @@
 /* eslint-disable default-case */
 const gql = require('graphql-tag');
 const { GraphQLError } = require('graphql');
-const getRole = require('./getRole');
+const redisClient = require('./redisClient');
+const union = require('./union');
+const createLoader = require('./createLoaders');
 
-module.exports = async ({ req, res }) => {
-  // const graphqlQuery = req.body.query;
+module.exports = async ({ req }) => {
   const guestScope = [
-    'getSession', // Debug only
     'users',
     'post', 'posts',
     'register', 'login',
@@ -25,49 +25,30 @@ module.exports = async ({ req, res }) => {
     'user',
     'disableUser',
   ];
-  let role;
-  let graphqlQuery;
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    role = await getRole(token);
-    graphqlQuery = gql`${req.body.query}`;
-  } catch (error) {
-    throw new GraphQLError(error.message);
+  const graphqlAST = gql`${req.body.query}`;
+  const graphqlselections = graphqlAST.definitions.map(query => query.selectionSet.selections).flat();
+  const graphqlQueries = graphqlselections.map(selection => selection.name.value);
+
+  if (union(userScope, adminScope, graphqlQueries) === []) {
+    return {
+      loader: createLoader(),
+    };
   }
-  switch (role) {
-    case 'User':
-      graphqlQuery.definitions.forEach(query => {
-        query.selectionSet.selections.forEach(selection => {
-          if ([...userScope, ...guestScope].findIndex(
-            command => command === selection.name.value,
-          ) === -1) {
-            throw new GraphQLError('You are not authorized to perform this action.');
-          }
-        });
-      });
-      break;
-    case 'Admin':
-      graphqlQuery.definitions.forEach(query => {
-        query.selectionSet.selections.forEach(selection => {
-          if ([...userScope, ...guestScope, ...adminScope].findIndex(
-            command => command === selection.name.value,
-          ) === -1) {
-            throw new GraphQLError('You are not authorized to perform this action.');
-          }
-        });
-      });
-      break;
-    default:
-      graphqlQuery.definitions.forEach(query => {
-        query.selectionSet.selections.forEach(selection => {
-          if ([...guestScope].findIndex(
-            command => command === selection.name.value,
-          ) === -1) {
-            throw new GraphQLError('You are not authorized to perform this action.', 'FORBIDDEN');
-          }
-        });
-      });
-      break;
+  const token = req.headers.authorization;
+  if (!token) {
+    throw new GraphQLError('Unauthorized!');
   }
-  return { req, res };
+  const _id = token.split(':')[0];
+  const role = await redisClient.get(token);
+
+  if (!role || (union(adminScope, graphqlQueries) !== [] && role !== 'Admin')) {
+    throw new GraphQLError('Unauthorized!');
+  }
+  return {
+    credential: {
+      _id,
+      role,
+    },
+    loader: createLoader(),
+  };
 };
