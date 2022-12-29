@@ -5,7 +5,6 @@ module.exports = async id => {
   let keys = [];
   do {
     [cursor, keys] = await redisClient.scan(cursor, 'MATCH', `${id}:*`, 'COUNT', '100');
-    console.log({ cursor, keys });
     redisClient.del(keys);
   } while (cursor !== '0');
 };
