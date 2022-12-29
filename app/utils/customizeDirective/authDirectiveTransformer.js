@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 const { mapSchema, getDirective, MapperKind } = require('@graphql-tools/utils');
-const { defaultFieldResolver } = require('graphql');
-const getRole = require('../getRole');
+const { defaultFieldResolver, GraphQLError } = require('graphql');
 
 function authDirectiveTransformer(schema, directiveName) {
   return mapSchema(schema, {
@@ -13,11 +12,10 @@ function authDirectiveTransformer(schema, directiveName) {
         if (requires) {
           const { resolve = defaultFieldResolver } = fieldConfig;
           fieldConfig.resolve = async (source, args, context, info) => {
-            const { req } = context;
-            const token = req.headers.authorization.split(' ')[1];
-            const role = await getRole(token);
+            const { credential } = context;
+            const { role } = credential;
             if (role !== requires) {
-              throw new Error('not authorized');
+              throw new GraphQLError('unauthorized!');
             }
             return resolve(source, args, context, info);
           };

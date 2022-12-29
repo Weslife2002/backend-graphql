@@ -3,7 +3,11 @@ const loaders = require('../datasources/loaders');
 
 function createLoader() {
   return {
-    deleteComment: (new DataLoader(loaders.batchDeleteComments)),
+    followerCountOfUser: new DataLoader(loaders.batchFollowerCountOfUser),
+    clapCountOfPost: new DataLoader(loaders.batchClapCountOfPost),
+    postById: new DataLoader(loaders.batchPostById),
+    userById: new DataLoader(loaders.batchUserById),
+    commentById: new DataLoader(loaders.batchCommentById),
   };
 }
 

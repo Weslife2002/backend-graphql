@@ -2,15 +2,10 @@
 const gql = require('graphql-tag');
 const { GraphQLError } = require('graphql');
 const redisClient = require('./redisClient');
-const union = require('./union');
-const createLoader = require('./createLoaders');
+const createLoaders = require('./createLoaders');
+const intersection = require('./intersection');
 
 module.exports = async ({ req }) => {
-  const guestScope = [
-    'users',
-    'post', 'posts',
-    'register', 'login',
-  ];
   const userScope = [
     'logout',
     'me',
@@ -29,11 +24,12 @@ module.exports = async ({ req }) => {
   const graphqlselections = graphqlAST.definitions.map(query => query.selectionSet.selections).flat();
   const graphqlQueries = graphqlselections.map(selection => selection.name.value);
 
-  if (union(userScope, adminScope, graphqlQueries) === []) {
+  if (intersection(userScope.concat(adminScope), graphqlQueries).length === 0) {
     return {
-      loader: createLoader(),
+      loaders: createLoaders(),
     };
   }
+
   const token = req.headers.authorization;
   if (!token) {
     throw new GraphQLError('Unauthorized!');
@@ -41,7 +37,7 @@ module.exports = async ({ req }) => {
   const _id = token.split(':')[0];
   const role = await redisClient.get(token);
 
-  if (!role || (union(adminScope, graphqlQueries) !== [] && role !== 'Admin')) {
+  if (!role || (intersection(adminScope, graphqlQueries) !== [] && role !== 'Admin')) {
     throw new GraphQLError('Unauthorized!');
   }
   return {
@@ -49,6 +45,6 @@ module.exports = async ({ req }) => {
       _id,
       role,
     },
-    loader: createLoader(),
+    loaders: createLoaders(),
   };
 };
