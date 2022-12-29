@@ -1,194 +1,101 @@
-require('../global');
-const { GraphQLError } = require('graphql');
-const { logger } = require('../global');
-const responseMessage = require('../utils/responseMessage');
+function registerResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.User.register(args, context, info);
+}
+function loginResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.User.login(args, context, info);
+}
+function logoutResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.User.logout(args, context, info);
+}
+function disableUserResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.User.disableUser(args, context, info);
+}
+
+function followResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Follow.follow(args, context, info);
+}
+function unfollowResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Follow.unfollow(args, context, info);
+}
+
+function createPostResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Post.createPost(args, context, info);
+}
+function updatePostResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Post.updatePost(args, context, info);
+}
+function deletePostResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Post.deletePost(args, context, info);
+}
+function hidePostResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Post.hidePost(args, context, info);
+}
+
+function clapPostResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Clap.clapPost(args, context, info);
+}
+function unclapPostResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Clap.unclapPost(args, context, info);
+}
+function clapCommentResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Clap.clapComment(args, context, info);
+}
+function unclapCommentResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Clap.unclapComment(args, context, info);
+}
+
+function commentResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Comment.comment(args, context, info);
+}
+function updateCommentResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Comment.updateComment(args, context, info);
+}
+function replyResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Comment.reply(args, context, info);
+}
+function deleteCommentResolver(parent, args, context, info) {
+  const { dataSources } = context;
+  return dataSources.Comment.deleteComment(args, context, info);
+}
 
 module.exports = {
-  register: async (_, { email, username, password }, { dataSources, req }, ___) => {
-    try {
-      const { newUser, token } = await dataSources.User.register({ email, username, password }, { req });
-      return responseMessage(true, 'Register successfully', { newUser, token });
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
-  login: async (_, { username, password }, { dataSources, req }, info) => {
-    try {
-      const { user, token } = await dataSources.User.login(
-        { username, password },
-        { req },
-        info,
-      );
-      return responseMessage(true, 'Authentication successfully', { user, token });
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
-  logout: async (_, __, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.User.logout(token);
-      return responseMessage(true, 'Log out successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
+  register: registerResolver,
+  login: loginResolver,
+  logout: logoutResolver,
+  disableUser: disableUserResolver,
 
-  disableUser: async (_, { id }, { dataSources }) => {
-    try {
-      await dataSources.User.disableUser(id);
-      return responseMessage(true, 'Disable user successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
+  follow: followResolver,
+  unfollow: unfollowResolver,
 
-  follow: async (_, { followee }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Follow.follow(followee, token);
-      return responseMessage(true, 'Follow user successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
-  unfollow: async (_, { followee }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Follow.unfollow(followee, token);
-      return responseMessage(true, 'Unfollow user successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
+  createPost: createPostResolver,
+  updatePost: updatePostResolver,
+  deletePost: deletePostResolver,
+  hidePost: hidePostResolver,
 
-  createPost: async (_, { title, content, status }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      const post = await dataSources.Post.createPost(title, content, status, token);
-      return post;
-    } catch (error) {
-      logger.error(error.stack);
-      throw new GraphQLError(error.message);
-    }
-  },
-  updatePost: async (_, { input }, { dataSources, req }, info) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      return await dataSources.Post.updatePost(input, token, info);
-    } catch (error) {
-      logger.error(error.stack);
-      throw new GraphQLError(error.message);
-    }
-  },
-  deletePost: async (_, { _id }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.deletePost(_id, token);
-      return responseMessage(true, 'Delete post successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
-  hidePost: async (_, { _id }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Post.hidePost(_id, token);
-      return responseMessage(true, 'Hide post successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
+  clapPost: clapPostResolver,
+  unclapPost: unclapPostResolver,
+  clapComment: clapCommentResolver,
+  unclapComment: unclapCommentResolver,
 
-  clapPost: async (_, { postId, count = 1 }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Clap.clapPost({ postId, count }, token);
-      return responseMessage(true, 'Clap post successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
-  unclapPost: async (_, { postId }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Clap.unclapPost(postId, token);
-      return responseMessage(true, 'Unclap post successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
-
-  clapComment: async (_, { commentId, count = 1 }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Clap.clapComment({ commentId, count }, token);
-      return responseMessage(true, 'Clap comment successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
-  unclapComment: async (_, { commentId }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Clap.unclapComment(commentId, token);
-      return responseMessage(true, 'Unclap comment successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
-
-  comment: async (_, { input }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      return (await dataSources.Comment.comment(input, token));
-    } catch (error) {
-      logger.error(error.stack);
-      throw new GraphQLError(error.message);
-    }
-  },
-  updateComment: async (_, { input }, { dataSources, req }, info) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      return (await dataSources.Comment.updateComment(input, token, info));
-    } catch (error) {
-      logger.error(error.stack);
-      throw new GraphQLError(error.message);
-    }
-  },
-  reply: async (_, { input }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      return (await dataSources.Comment.reply(input, token));
-    } catch (error) {
-      logger.error(error.stack);
-      throw new GraphQLError(error.message);
-    }
-  },
-  deleteComment: async (_, { _id }, { dataSources, req }) => {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      await dataSources.Comment.deleteComment(
-        _id,
-        token,
-        dataSources.loaders.Comment.deleteComment,
-      );
-      return responseMessage(true, 'Delete comment successfully');
-    } catch (error) {
-      logger.error(error.stack);
-      return responseMessage(false, error.message);
-    }
-  },
+  comment: commentResolver,
+  updateComment: updateCommentResolver,
+  reply: replyResolver,
+  deleteComment: deleteCommentResolver,
 };
