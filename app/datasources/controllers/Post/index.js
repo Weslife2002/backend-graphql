@@ -85,12 +85,28 @@ async function postsFilter(args, context, info) {
 
 async function updatePost(args, context, info) {
   try {
-    const { id: _id } = args;
+    const { input } = args;
+    const { id: _id } = input;
+    const { title, content, status } = input;
     const { credential } = context;
     const { _id: owner } = credential;
     const selectedFields = getSelectedFields(info);
-    return (Post.updateOne({ _id, owner }, args).then(
-      () => Post.findOne({ _id, owner }).select(selectedFields),
+    return (Post.updateOne(
+      { _id, owner },
+      removeUndefinedValue({ title, content, status }),
+    ).then(
+      result => {
+        if (result.modifiedCount) {
+          return Post.findOne({ _id, owner }).select(selectedFields).then(updatedPost => {
+            if (!updatedPost) {
+              throw new GraphQLError('Unauthorized!');
+            }
+            return updatedPost;
+          });
+        }
+        throw new GraphQLError('Fail to update post!');
+      },
+
     ));
   } catch (error) {
     logger.error(error.stack);

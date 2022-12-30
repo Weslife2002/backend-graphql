@@ -71,8 +71,8 @@ async function logout(args, context, info) {
 
 async function me(args, context, info) {
   const selectedFields = getSelectedFields(info, { lastOnly: true });
-  const { credentials } = context;
-  const { _id } = credentials;
+  const { credential } = context;
+  const { _id } = credential;
   return User.findOne({ _id }).select(selectedFields);
 }
 

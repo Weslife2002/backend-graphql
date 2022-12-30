@@ -36,13 +36,13 @@ async function unfollow(args, context, info) {
     await Follow.deleteOne({ followee, follower });
     return {
       isSucess: true,
-      message: 'Follow user success!',
+      message: 'Unfollow user success!',
     };
   } catch (error) {
     logger.error(error.stack);
     return {
       isSucess: false,
-      message: 'Fail to follow user!',
+      message: 'Fail to unfollow user!',
     };
   }
 }
