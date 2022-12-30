@@ -5,7 +5,7 @@ const redisClient = require('./redisClient');
 const createLoaders = require('./createLoaders');
 const intersection = require('./intersection');
 
-module.exports = async ({ req }) => {
+async function createContext({ req }) {
   const userScope = [
     'logout',
     'me',
@@ -37,7 +37,7 @@ module.exports = async ({ req }) => {
   const _id = token.split(':')[0];
   const role = await redisClient.get(token);
 
-  if (!role || (intersection(adminScope, graphqlQueries) !== [] && role !== 'Admin')) {
+  if (!role || (intersection(adminScope, graphqlQueries).length > 0 && role !== 'Admin')) {
     throw new GraphQLError('Unauthorized!');
   }
   return {
@@ -47,4 +47,6 @@ module.exports = async ({ req }) => {
     },
     loaders: createLoaders(),
   };
-};
+}
+
+module.exports = createContext;
