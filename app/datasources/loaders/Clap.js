@@ -1,8 +1,10 @@
+const mongoose = require('mongoose');
 const { Clap } = require('../models');
 
 async function batchClapCountOfPost(keys) {
+  const objectKeys = keys.map(key => mongoose.Types.ObjectId(key));
   const clapCount = await Clap.aggregate([{
-    $match: { post: { $in: keys } },
+    $match: { post: { $in: objectKeys } },
   }, {
     $project: { _id: 0, post: 1, count: 1 },
   }, {
@@ -18,7 +20,7 @@ async function batchClapCountOfPost(keys) {
     clapMap.set(clapInstance._id.toString(), clapInstance.clapCount);
   });
 
-  return keys.map(key => clapMap.get(key.toString()) || 0);
+  return keys.map(key => clapMap.get(key) || 0);
 }
 
 module.exports = {
