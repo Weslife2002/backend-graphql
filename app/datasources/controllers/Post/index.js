@@ -71,7 +71,8 @@ async function hidePost(args, context, info) {
 
 async function postsFilter(args, context, info) {
   try {
-    const { owner, title, limit, offset } = args;
+    const { input } = args;
+    const { owner, title, limit, offset } = input;
     const selectedFields = getSelectedFields(info, { lastOnly: true });
     const posts = await Post.find(
       removeUndefinedValue({ owner, title }),

@@ -32,7 +32,8 @@ function deleteComment(args, context, info) {
 }
 
 function replies(args, context, info) {
-  const { commentId, limit, offset } = args;
+  const { input } = args;
+  const { commentId, limit, offset } = input;
   const condition = removeUndefinedValue({ parent: commentId });
   const selectedFields = getSelectedFields(info, { lastOnly: true });
   return Comment.find(condition).select(selectedFields)

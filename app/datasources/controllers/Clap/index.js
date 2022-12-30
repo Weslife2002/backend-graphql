@@ -43,12 +43,12 @@ async function clapPost(args, context, info) {
     const { postId, count = 1 } = args;
     const { credential } = context;
     const { _id: user } = credential;
-    const { owner } = await Post.findOne({
-      post: postId, owner: user,
+    const postInstance = await Post.findOne({
+      post: postId,
     }).select('owner');
-    if (owner) {
+    if (postInstance.owner === user) {
       return {
-        isSuccess: true,
+        isSuccess: false,
         message: 'Unauthorized!',
       };
     }
@@ -59,7 +59,7 @@ async function clapPost(args, context, info) {
         message: 'Clap post success!',
       };
     }
-    await Clap.create({ user, post: postId, postOwner: owner, count }).then(
+    await Clap.create({ user, post: postId, postOwner: postInstance.owner, count }).then(
       createdInstance => createdInstance.save(),
     );
     return {
