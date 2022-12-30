@@ -1,6 +1,6 @@
 function me(parent, args, context, info) {
   const { dataSources } = context;
-  return dataSources.User.register(args, context, info);
+  return dataSources.User.me(args, context, info);
 }
 
 function user(parent, args, context, info) {
