@@ -5,6 +5,7 @@ const { User } = require('../../models');
 const getSelectedFields = require('../../utils/general/getSelectedFields');
 const redisClient = require('../../utils/redis/redisClient');
 const config = require('../../../config');
+const removeUndefinedValue = require('../../utils/general/removeUndefinedValue');
 
 async function disableUser(args, context, info) {
   try {
@@ -42,7 +43,7 @@ async function login(args, context, info) {
   if (!user) {
     return {
       isSuccess: false,
-      message: 'Invalid credentials!',
+      message: 'Invalid signatures!',
     };
   }
   const randomString = crypto.randomBytes(12).toString('base64')
@@ -60,8 +61,8 @@ async function login(args, context, info) {
 }
 
 async function logout(args, context, info) {
-  const { credential } = context;
-  const { token } = credential;
+  const { signature } = context;
+  const { token } = signature;
   await redisClient.del(token);
   return {
     isSuccess: true,
@@ -71,16 +72,14 @@ async function logout(args, context, info) {
 
 async function me(args, context, info) {
   const selectedFields = getSelectedFields(info, { lastOnly: true });
-  const { credential } = context;
-  const { _id } = credential;
+  const { signature } = context;
+  const { _id } = signature;
   return User.findOne({ _id }).select(selectedFields);
 }
 
 async function register(args, context, info) {
   const { email, username, password } = args;
-  const newUser = await User.create({ email, username, password }).then(
-    userInstance => userInstance.save(),
-  );
+  const newUser = await new User({ email, username, password }).save();
   return {
     isSuccess: true,
     message: 'Register Success!',
@@ -89,9 +88,12 @@ async function register(args, context, info) {
 }
 
 async function userFilter(args, context, info) {
-  // FIXME: Get Specific Filter Input
   const { input } = args;
-  const user = await User.findOne({ ...input }).select(
+  const {
+    _id, username, email,
+  } = input;
+  const filter = removeUndefinedValue({ _id, username, email });
+  const user = await User.findOne(filter).select(
     getSelectedFields(info, { lastOnly: true }),
   );
   return user;
