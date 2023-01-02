@@ -1,12 +1,16 @@
 const upperDirectiveTransformer = require('./upperDirectiveTransformer');
 const authDirectiveTransformer = require('./authDirectiveTransformer');
 
-const directiveTransformers = [
-  upperDirectiveTransformer,
-  authDirectiveTransformer,
-];
+function customizeDirective(schema) {
+  const directiveTransformers = [
+    upperDirectiveTransformer,
+    authDirectiveTransformer,
+  ];
+  const transformedSchema = directiveTransformers.reduce(
+    (curSchema, transformer) => transformer(curSchema),
+    schema,
+  );
+  return transformedSchema;
+}
 
-module.exports = schema => directiveTransformers.reduce(
-  (curSchema, transformer) => transformer(curSchema),
-  schema,
-);
+module.exports = customizeDirective;
