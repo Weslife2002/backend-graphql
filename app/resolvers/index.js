@@ -4,6 +4,7 @@ const Mutation = require('./mutationResolver');
 const User = require('./User');
 const Clap = require('./Clap');
 const Post = require('./Post');
+const Comment = require('./Comment');
 
 const resolvers = {
   ...Scalar,
@@ -12,6 +13,7 @@ const resolvers = {
   User,
   Clap,
   Post,
+  Comment,
 
 };
 
