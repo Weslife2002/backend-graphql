@@ -41,7 +41,7 @@ async function createContext({ req }) {
     throw new GraphQLError('Unauthorized!');
   }
   return {
-    credential: {
+    signature: {
       _id,
       role,
     },

@@ -28,6 +28,7 @@ const logger = createLogger({
 //
 if (process.env.NODE_ENV !== 'production') {
   logger.add(new transports.Console({
+    level: 'info',
     // level: consoleloggerLevel,
     format: format.combine(
       format.combine(
@@ -35,10 +36,10 @@ if (process.env.NODE_ENV !== 'production') {
         format.json(),
         format.colorize(),
         format.timestamp(),
-        format.printf(info => `${info.timestamp} - ${info.level}: ${info.message}`),
+        format.printf(info => `${info.level}: ${info.message}`),
+        // format.simple(),
       ),
     ),
-    // format: format.simple(),
   }));
 }
 
