@@ -3,4 +3,5 @@ input ReplyFilterInput {
 
   limit: Int
   offset: Int
+  cursor: ID
 }

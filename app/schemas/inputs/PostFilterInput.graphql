@@ -4,4 +4,5 @@ input PostFilterInput {
 
   limit: Int
   offset: Int
+  cursor: ID
 }
