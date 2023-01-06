@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const config = require('../config');
 require('../global');
 
-require('./models');
 const controllers = require('./controllers');
 const loaders = require('./loaders');
 
