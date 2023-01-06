@@ -2,4 +2,5 @@
 .gitadd
 node_modules/
 
-app/logger
+**/logger
+router/router
