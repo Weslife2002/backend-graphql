@@ -1,0 +1,69 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+
+scalar DateTime
+
+type Query {
+  replies(input: ReplyFilterInput!): [Comment]
+}
+
+type Mutation {
+  comment(input: CommentInput): Comment
+  updateComment(input: UpdateCommentInput): Comment
+  reply(input: ReplyCommentInput): Comment
+  deleteComment(_id: ID!): GeneralResponse
+}
+
+input ReplyFilterInput {
+  commentId: ID
+
+  limit: Int
+  offset: Int
+  cursor: ID
+}
+
+input CommentInput {
+  postId: ID!
+
+  title: String
+  content: String
+}
+
+input ReplyCommentInput {
+  postId: ID!
+  commentId: ID!
+
+  title: String
+  content: String
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+
+  title: String
+  content: String
+}
+
+
+type Comment @key(fields: "_id") {
+  _id: ID
+  title: String
+  content: String
+  user: User
+  post: Post
+
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GeneralResponse @shareable {
+  isSuccess: Boolean
+  message: String
+}
+
+type User @key(fields: "_id") {
+  _id: ID
+}
+
+type Post @key(fields: "_id") {
+  _id: ID
+}

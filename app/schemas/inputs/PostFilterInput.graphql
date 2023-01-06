@@ -1,8 +1,0 @@
-input PostFilterInput {
-  owner: ID
-  title: String
-
-  limit: Int
-  offset: Int
-  cursor: ID
-}

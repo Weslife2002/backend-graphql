@@ -1,5 +1,0 @@
-type SignUpResponse {
-  isSuccess: Boolean
-  message: String
-  newUser: User
-}

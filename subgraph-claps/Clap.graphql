@@ -1,0 +1,40 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+
+scalar DateTime
+
+type Mutation {
+  clapPost(postId: ID, count: Int): GeneralResponse
+  unclapPost(postId: ID): GeneralResponse
+  clapComment(commentId: ID, count: Int): GeneralResponse
+  unclapComment(commentId: ID): GeneralResponse
+}
+
+type Clap {
+  _id: ID
+  user: User
+  count: Int
+
+  post: Post
+  comment: Comment
+
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GeneralResponse @shareable {
+  isSuccess: Boolean
+  message: String
+}
+
+type Comment @key(fields: "_id") {
+  _id: ID
+}
+
+type User @key(fields: "_id") {
+  _id: ID
+}
+
+type Post @key(fields: "_id") {
+  _id: ID
+  clapCount: Int
+}

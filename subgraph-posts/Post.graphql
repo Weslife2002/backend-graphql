@@ -1,0 +1,60 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+
+scalar DateTime
+
+enum postStatus {
+  Draft
+  Visible
+  Hidden
+  Deleted
+}
+
+type Query {
+  post(id: ID!): Post
+  posts(input: PostFilterInput!): [Post]
+}
+
+type Mutation {
+  createPost(title: String!, content: String!, status: String!): Post
+  updatePost(input: UpdatePostInput!): Post
+  deletePost(_id: ID): GeneralResponse
+  hidePost(_id: ID): GeneralResponse
+}
+
+input PostFilterInput {
+  owner: ID
+  title: String
+
+  limit: Int
+  offset: Int
+  cursor: ID
+}
+
+input UpdatePostInput {
+  id: ID!
+  title: String!
+  content: String!
+  status: postStatus!
+}
+
+type Post @key(fields: "_id"){
+  _id: ID
+  title: String
+  content: String
+
+  status: postStatus
+
+  owner: User
+
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GeneralResponse @shareable {
+  isSuccess: Boolean
+  message: String
+}
+
+type User @key(fields: "_id") {
+  _id: ID
+}

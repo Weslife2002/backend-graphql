@@ -1,5 +1,5 @@
-.env
-.gitadd
-node_modules/
-
-app/logger
+**/node_modules/
+.DS_Store
+**/.env
+**/logger/
+router/router

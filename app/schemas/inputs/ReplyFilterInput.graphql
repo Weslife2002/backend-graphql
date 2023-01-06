@@ -1,7 +1,0 @@
-input ReplyFilterInput {
-  commentId: ID
-
-  limit: Int
-  offset: Int
-  cursor: ID
-}

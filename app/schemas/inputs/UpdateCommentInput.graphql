@@ -1,6 +1,0 @@
-input UpdateCommentInput {
-  commentId: ID!
-
-  title: String
-  content: String
-}

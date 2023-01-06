@@ -1,0 +1,18 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+
+scalar DateTime
+
+type Mutation {
+  follow(followee: ID): GeneralResponse
+  unfollow(followee: ID): GeneralResponse
+}
+
+type GeneralResponse @shareable {
+  isSuccess: Boolean
+  message: String
+}
+
+type User @key(fields: "_id") {
+  _id: ID
+  followerCount: Int
+}

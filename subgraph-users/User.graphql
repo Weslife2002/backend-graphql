@@ -1,0 +1,66 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@shareable"])
+
+directive @auth(requires: Role = Admin) on OBJECT | FIELD_DEFINITION
+directive @upper on FIELD_DEFINITION
+
+scalar DateTime
+
+enum Role {
+  Guest
+  User
+  Admin
+}
+
+type Query {
+  me: User @auth(requires: Admin)
+  user(input: UserFilterInput): User # Admin only
+  users(username: String): [User]
+}
+
+type Mutation {
+  register(email: String!, username: String!, password: String!): SignUpResponse
+  login(username: String!, password: String!): LoginResponse
+  logout: GeneralResponse
+  disableUser(id: ID): GeneralResponse # Admin only
+}
+
+input UserFilterInput {
+  _id: ID
+  username: String
+  email: String
+}
+
+type User @key(fields: "_id") {
+  _id: ID
+  firstName: String
+  lastName: String
+  email: String
+  username: String
+  role: String @upper
+
+  photo: String
+  bio: String
+  status: String
+
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type GeneralResponse @shareable {
+  isSuccess: Boolean
+  message: String
+}
+
+type LoginResponse {
+  isSuccess: Boolean
+  message: String
+  token: String
+  user: User
+}
+
+type SignUpResponse {
+  isSuccess: Boolean
+  message: String
+  newUser: User
+}
+

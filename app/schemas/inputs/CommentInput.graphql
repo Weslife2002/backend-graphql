@@ -1,6 +1,0 @@
-input CommentInput {
-  postId: ID!
-
-  title: String
-  content: String
-}

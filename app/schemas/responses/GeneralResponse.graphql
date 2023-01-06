@@ -1,4 +1,0 @@
-type GeneralResponse {
-  isSuccess: Boolean
-  message: String
-}
